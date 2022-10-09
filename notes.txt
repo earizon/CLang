@@ -1,297 +1,161 @@
+●  Apropos:
+- Visit next Web site for a great experience:
+  https://earizon.github.io/txt_world_domination/viewer.html?payload=../CLang/notes.txt
+
+- If you want to contribute to great gistory of this document you can
+  take the next flight to:
+@[https://www.github.com/earizon/CLang]
+  Your commits and pull-request will be immortalized in the Pantheon of the Unicode Gods.
+
+
 Misserable collection of unordered C/C++ notes:
 
-• GCC summary:
-[[{101,TODO]] #[gcc_summary]
+• GCC summary: [[{gcc.101,01_PM.TODO]] #[gcc_summary]
 See gcc related tldr:
 @[https://github.com/tldr-pages/tldr/tree/master/pages/common]
 @[https://github.com/tldr-pages/tldr/blob/master/pages/common/clang.md]
 @[https://clang.llvm.org/docs/ClangCommandLineReference.html]
 
-(Use c99 to call gcc with default options set to use ISO C standard)
-- Most commands are compatible with clang LLVM compiler. Just replace
-  gcc with clang.
 
-$ $ gcc {{source1.c}} {{source2.c}} \   ← Compile N source files
-$     -o {{executable}}                   ← to exec
-$     -Wall                               ← Allow warnings
-$     -Og                                 ← debug symbols to STDOUT
-$     -I{{header_path}}                   ← add headers paths
-$     -L{{library_path}}                  ← add library paths
-$     -l{{library_name}}                  ← add library
+  $ gcc ${source1.c} ${source2.c} \   ← Compile N source files,
+      -o ${executable}                   ← to exec
+      -Wall                              ← Allow warnings
+      -Og                                ← debug symbols to STDOUT
+      -I${header_path}                   ← add headers paths
+      -L${library_path}                  ← add library paths
+      -l${library_name}                  ← add library
+   NOTE: Use c99 (vs gcc) + default options to switch to ISO C standard.
+   NOTE: Most commands are similar in gcc and clang LLVM compiler.
 
+  $ gcc -S ${source.c}                   ← Compile src to Assembler
 
-$ $ gcc -S {{source.c}}                   ← Compile src to Assembler
+  $ gcc -c ${source.c}                   ← Compile src, do NOT link
 
-$ $ gcc -c {{source.c}}                   ← Compile src, do NOT link
-
-$ $ clang -S -emit-llvm {{file.c}} \      ← Compile src to LLVM Intermediate Rep. 
-$     -o {{file.ll}}                   
-[[}]]
-
-• cmake  [[{TODO]]  #[cmake_summary]
-@[https://github.com/tldr-pages/tldr/blob/master/pages/common/cmake.md]
-@[https://cmake.org/cmake/help/latest/manual/cmake.1.html]
-
-- Cross-platform build automation system generating recipes
-  for native build systems. 
-
-$ $ cmake $path_to_cmakelist           ← Create build recipe in "./" dir with
-                                         CMakeLists.txt from $path_to_cmakelist
-
-$ $ cmake $project_dir \               ← Create build recipe
-$   -D {{CMAKE_BUILD_TYPE=Release}}      ← build type set to Release with CMake variable
-
-$ $ cmake --build $build_dir           ← Use generated recipe in $build_dir to build artifacts
-                                         Use flag $ --target {{target_name}}  for custom build target
-$ $ cmake --install $build_dir \       ← Install 
-$   --prefix {{path/to/directory}}       ← use custom prefix for install paths (default to /usr/local/)
-$  --strip                               ← strip debugging symbols
-
-------------------------------------
-• CMake test:
-@[https://github.com/tldr-pages/tldr/blob/master/pages/common/ctest.md]
-@[https://gitlab.kitware.com/cmake/community/wikis/doc/ctest/Testing-With-CTest]
-
-$ $ ctest --output-on-failure \   ← Run 1+/all tests defined in CMake project
-$         -j{{4}}             \     ← Exec up to 4 jobs in parallel
-$         -R '^{{test_name}}$'      ← Run just test whose name matches regex 
+  $ clang -S -emit-llvm ${file.c} \      ← Compile src to LLVM Intermediate Rep.
+$     -o ${file.ll}
 [[}]]
 
 ● Cscope  [[{]]
-" CSCOPE settings for vim           
-"
-" This file contains some boilerplate settings for vim's cscope interface,
-" plus some keyboard mappings that I've found useful.
-"
-" USAGE: 
-" -- vim 6:     Stick this file in your ~/.vim/plugin directory (or in a
-"               'plugin' directory in some other directory that is in your
-"               'runtimepath'.
-"
-" -- vim 5:     Stick this file somewhere and 'source cscope.vim' it from
-"               your ~/.vimrc file (or cut and paste it into your .vimrc).
-"
-" NOTE: 
-" These key maps use multiple keystrokes (2 or 3 keys).  If you find that vim
-" keeps timing you out before you can complete them, try changing your timeout
-" settings, as explained below.
-"
-" Happy cscoping,
-"
-" Jason Duell       jduell@alumni.princeton.edu     2002/3/7
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+  - interactively examine a C "source" program files:
+    - C    .c/.h
+    - lex  .l
+    - yacc .y
+    (by default in the current  directory and standard include directories)
 
+  - cscope.out:
+    - built on first run.
+    - rebuilt on file-source changes.
+    - data for unchanged files is cached.
+    symbol cross-reference database index for:
+    - functions
+    - function calls
+    - macros
+    - variables
+    - preprocessor symbols
 
-" This tests to see if vim was configured with the '--enable-cscope' option
-" when it was compiled.  If it wasn't, time to recompile vim... 
-if has("cscope")
+man cscope
 
-    """"""""""""" Standard cscope/vim boilerplate
+cscope $OPTIONS file1 file2 ...
 
-    " use both cscope and ctag for 'ctrl-]', ':ta', and 'vim -t'
-    set cscopetag
+-b  Build the cross-reference only.
+-C  Ignore letter case when searching.
+-c  Use only ASCII characters in the cross-reference file,
+  that is, do not compress the data.
+-d  Do not update the cross-reference.
+-e  Suppress the <Ctrl>-e command prompt between files.
+-F${symfile} Read symbol reference lines from symfile.
+  (A symbol reference file is created by >
+  and >>, and can also be read using the <
+  command, described under ``Issuing Subsequent Requests'', below.)
+-f${reffile} Use reffile instead of "cscope.out".
+-I${incdir} Use cwd -> $INCDIR -> /usr/include for headers.
+-i${namefile} Use $namefile instead of cscope.files for list of
+  source files.
+-k  ``Kernel Mode'', turns /usr/include, not used by kernel.
 
-    " check cscope for definition of a symbol before checking ctags: set to 1
-    " if you want the reverse search order.
-    set csto=0
+-L  Do a single search with line-oriented output when used
+  with the -num pattern option.
 
-    " add any cscope database in current directory
-    if filereadable("cscope.out")
-        cs add cscope.out  
-    " else add the database pointed to by environment variable 
-    elseif $CSCOPE_DB != ""
-        cs add $CSCOPE_DB
-    endif
+-l  Line-oriented interface (see ``Line-Oriented Interface'' below).
 
-    " show msg when any other cscope db added
-    set cscopeverbose  
+-[0-9]pattern
+  Go to input field num (counting from 0) and find pattern.
 
+-P${path} Prepend path to relative file names in pre-built cscope.out
+  (only valid with the -d option).
 
-    """"""""""""" My cscope/vim key mappings
-    "
-    " The following maps all invoke one of the following cscope search types:
-    "
-    "   's'   symbol: find all references to the token under cursor
-    "   'g'   global: find global definition(s) of the token under cursor
-    "   'c'   calls:  find all calls to the function name under cursor
-    "   't'   text:   find all instances of the text under cursor
-    "   'e'   egrep:  egrep search for the word under cursor
-    "   'f'   file:   open the filename under cursor
-    "   'i'   includes: find files that include the filename under cursor
-    "   'd'   called: find functions that function under cursor calls
-    "
-    " Below are three sets of the maps: one set that just jumps to your
-    " search result, one that splits the existing vim window horizontally and
-    " diplays your search result in the new window, and one that does the same
-    " thing, but does a vertical split instead (vim 6 only).
-    "
-    " I've used CTRL-\ and CTRL-@ as the starting keys for these maps, as it's
-    " unlikely that you need their default mappings (CTRL-\'s default use is
-    " as part of CTRL-\ CTRL-N typemap, which basically just does the same
-    " thing as hitting 'escape': CTRL-@ doesn't seem to have any default use).
-    " If you don't like using 'CTRL-@' or CTRL-\, , you can change some or all
-    " of these maps to use other keys.  One likely candidate is 'CTRL-_'
-    " (which also maps to CTRL-/, which is easier to type).  By default it is
-    " used to switch between Hebrew and English keyboard mode.
-    "
-    " All of the maps involving the <cfile> macro use '^<cfile>$': this is so
-    " that searches over '#include <time.h>" return only references to
-    " 'time.h', and not 'sys/time.h', etc. (by default cscope will return all
-    " files that contain 'time.h' as part of their name).
+-p$n Display last n file path components instead default (1).
+  0 => DO not display the file name at all.
 
+-q  Enable fast symbol lookup via inverted index.
+  'cscope.in.out' and 'cscope.po.out' will be created.
+  Provie performance improvements in LARGE PROJECTS.
 
-    " To do the first type of search, hit 'CTRL-\', followed by one of the
-    " cscope search types above (s,g,c,t,e,f,i,d).  The result of your cscope
-    " search will be displayed in the current window.  You can use CTRL-T to
-    " go back to where you were before the search.  
-    "
+-R  Recurse subdirectories during search for source files.
 
-    nmap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>  
-    nmap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>  
-    nmap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>  
-    nmap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>  
-    nmap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>  
-    nmap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>  
-    nmap <C-\>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-    nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>  
+-s$dir Use also $dir for source files.
+  (ignored if source files are provided in cli)
 
+-T Use only first eight chars to match against C symbols.
+   (regex with special chars other than '.' will fail.
 
-    " Using 'CTRL-spacebar' (intepreted as CTRL-@ by vim) then a search type
-    " makes the vim window split horizontally, with search result displayed in
-    " the new window.
-    "
-    " (Note: earlier versions of vim may not have the :scs command, but it
-    " can be simulated roughly via:
-    "    nmap <C-@>s <C-W><C-S> :cs find s <C-R>=expand("<cword>")<CR><CR>  
+-U  Check file time stamps and update in cscope.out to last update.
 
-    nmap <C-@>s :scs find s <C-R>=expand("<cword>")<CR><CR> 
-    nmap <C-@>g :scs find g <C-R>=expand("<cword>")<CR><CR> 
-    nmap <C-@>c :scs find c <C-R>=expand("<cword>")<CR><CR> 
-    nmap <C-@>t :scs find t <C-R>=expand("<cword>")<CR><CR> 
-    nmap <C-@>e :scs find e <C-R>=expand("<cword>")<CR><CR> 
-    nmap <C-@>f :scs find f <C-R>=expand("<cfile>")<CR><CR> 
-    nmap <C-@>i :scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>   
-    nmap <C-@>d :scs find d <C-R>=expand("<cword>")<CR><CR> 
+-u  Unconditionally build (assume changes in all files).
 
+-v  verbose output
 
-    " Hitting CTRL-space  twice  before the search type does a vertical 
-    " split instead of a horizontal one (vim 6 and up only)
-    "
-    " (Note: you may wish to put a 'set splitright' in your .vimrc
-    " if you prefer the new window on the right instead of the left
+-X  Remove cscope.out and inverted indexes.
 
-    nmap <C-@><C-@>s :vert scs find s <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-@><C-@>g :vert scs find g <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-@><C-@>c :vert scs find c <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-@><C-@>t :vert scs find t <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-@><C-@>e :vert scs find e <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-@><C-@>f :vert scs find f <C-R>=expand("<cfile>")<CR><CR>   
-    nmap <C-@><C-@>i :vert scs find i ^<C-R>=expand("<cfile>")<CR>$<CR> 
-    nmap <C-@><C-@>d :vert scs find d <C-R>=expand("<cword>")<CR><CR>
+- Navigating into search results:
+  +  Display next set of matching lines.
+  -  Display previous set of matching lines.
+  ^e Edit displayed files in order.
+  >  Write  displayed list-of-lines to file.
+  >> Append displayed list-of-lines to file.
+  <  Read lines from file that is in symbol
+     reference format (created by > or >>),
+     just like the -F option.
+  ^  Filter all lines through a shell command,
+     display resulting lines.
+  |  Pipe all lines to shell command
+     display them without changing them.
 
-
-    """"""""""""" key map timeouts
-    "
-    " By default Vim will only wait 1 second for each keystroke in a mapping.
-    " You may find that too short with the above typemaps.  If so, you should
-    " either turn off mapping timeouts via 'notimeout'.
-    "
-    "set notimeout 
-    "
-    " Or, you can keep timeouts, by uncommenting the timeoutlen line below,
-    " with your own personal favorite value (in milliseconds):
-    "
-    "set timeoutlen=4000
-    "
-    " Either way, since mapping timeout settings by default also set the
-    " timeouts for multicharacter 'keys codes' (like <F1>), you should also
-    " set ttimeout and ttimeoutlen: otherwise, you will experience strange
-    " delays as vim waits for a keystroke after you hit ESC (it will be
-    " waiting to see if the ESC is actually part of a key code like <F1>).
-    "
-    "set ttimeout 
-    "
-    " personally, I find a tenth of a second to work well for key code
-    " timeouts. If you experience problems and have a slow terminal or network
-    " connection, set it higher.  If you don't set ttimeoutlen, the value for
-    " timeoutlent (default: 1000 = 1 second, which is sluggish) is used.
-    "
-    "set ttimeoutlen=100
-
-endif
-
+  ^n  Move to next input field. (or just "<Return>")
+  ^f  Move to next input field and search pattern.
+  ^p  Move to prev.input field.
+  ^b  Move to prev.input field and search pattern.
+  ^y  Search with the last text typed.
+  ^c  Toggle case-match.
+  ^r  Rebuild cross-reference.
+  !   Start interactive shell (^d: go back to cscope).
+  ^l  Redraw the screen.
+  ?   help about cscope commands.
+  ^d  Exit cscope.
 [[}]]
 
-● Tiny C Compiler - By Fabric Bellard [[{]]
-@[https://github.com/yuchao86/tcc]
-Tiny C Compiler - C Scripting Everywhere - The Smallest ANSI C compiler
-Features:
-    SMALL! You can compile and execute C code everywhere, for example 
-on rescue disks.
-
-    FAST! tcc generates optimized x86 code. No byte code overhead. 
-Compile, assemble and link about 7 times faster than 'gcc -O0'.
-
-    UNLIMITED! Any C dynamic library can be used directly. TCC is 
-heading torward full ISOC99 compliance. TCC can of course compile 
-itself.
-
-    SAFE! tcc includes an optional memory and bound checker. Bound 
-checked code can be mixed freely with standard code.
-
-    Compile and execute C source directly. No linking or assembly 
-necessary. Full C preprocessor included.
-
-    C script supported : just add '#!/usr/local/bin/tcc -run' at the 
-first line of your C source, and execute it directly from the command 
-line.
-[[}]]
-
-● HPX: distributed C++ lib [[{]]
-HPX is a distributed C++ library for concurrency and parallelism. It 
-implements APIs defined in the C++ Standard Library and extends them to work 
-in a distributed memory space. In this way HPX exposes a unified programing 
-model which transparently utilizes available resources. Our work is closely 
-aligned with the C++ Standard and the ongoing C++ standardization process.
-
-Read the organization's project ideas for Season of Docs.
-
-Contact: diehlpk at fellows@stellar-group.org
-[[}]]
-
-● Seastar: async lib replacing threads [[{async/reactive,TODO]]
-- shared memory, mapped files, and other classic Linux programming
-
-- See also:
+● Seastar: async lib replacing threads [[{async/reactive,performance,scalability,qa.UX,01_PM.TODO]]
+@[http://seastar.io]
 @[https://github.com/scylladb/seastar]
-High performance async server-side application framework 
-http://seastar.io
+- shared memory, mapped files, and other classic Linux programming.
+- C++ framework for high-performance server applications on modern hardware.
+- Used, among others, by Scylla, high-performance NoSQL database alternative
+  to Apache Cassandra.
+- Runs on Linux or OSv.
+
+- Shared-nothing design: shards all requests onto individual cores.
+- High-performance networking: Choice network stack:         [[{i/o.network]]
+  - conventional Linux networking for ease of development.
+  - DPDK for fast user-space networking on Linux.
+  - native networking on OSv.                                [[}]]
+
+- Futures and promises: "new" model for concurrent applications offering
+  both high performance and comprehensible, testable high-quality code.
+
+- Message passing: Share info. between CPU cores without time-consuming locking [[{thread.lock}]]
 [[}]]
 
-● Compile 3x faster [[{TODO]]
-https://developers.redhat.com/blog/2019/05/15/2-tips-to-make-your-c-projects-compile-3-times-faster/
-[[}]]
-
-● Control Make verbosity [[{TODO]]
-@[https://stackoverflow.com/questions/8438661/control-the-output-of-a-make-command-to-be-less-verbose-dont-echo-each-command/22786988#22786988]
-[[}]]
-
-● udis86: Minimalistic Disassembler  [[{]]
-@[http://udis86.sourceforge.net/]
-- easy-to-use, minimalistic disassembler library (libudis86)
-  for the x86 class of instruction set architectures. 
-- It has a convenient interface for use in the analysis and
-  instrumentation of binary code. Udis86 is distributed under
-  the terms of the 2-clause BSD License.
-$ echo "65 67 89 87 76 65 54 56 78 89 09 00 87" | udcli -32 -x
-0000000000000000 656789877665    mov [gs:bx+0x6576], eax
-0000000000000000 54              push esp
-0000000000000000 56              push esi
-0000000000000000 7889            js 0x93 
-0000000000000000 0900            or [eax], eax
-[[}]]
-
-● JAM build tool  [[{qa.UX,01_PM.low_code]]
+● JAM build tool  [[{qa.UX,01_PM.low_code,01_PM.TODO]]
 @[http://www.perforce.com/jam/jam.html]
 makes building simple things simple and building complicated things manageable.
 
@@ -302,141 +166,86 @@ Main proga : data.c main.c io.c ;   proga: data.o main.o io.o
                                       cc data.o main.o io.o -o proga
                                     data.o: data.c data.h
                                       cc -c data.c
-                                    
+
                                     main.o: data.h io.h main.c
                                       cc -c main.c
-                                    
+
                                     io.o: io.h io.c
                                       cc -c io.c
-[[}]]
-
-
-● g-speak: [[{TODO]]
-@[https://www.oblong.com/g-speak]
-g-speak™ is a C/C++ SDK which enables the development of 
-multi-user, multi-screen, multi-device, spatial, distributed 
-applications.
-[[}]]
-
-● ASTRÉE: Static Analyzer  [[{qa.code.analyzer]]
-David Monniaux (CNRS), member of the ASTRÉE project, says: “ASTRÉE is a 
-static analyzer based on abstract interpretation that aims at proving the 
-absence of runtime errors in safety-critical software written in a subset of 
-the C programming language.”
-
-“Automatically analyzing programs for exactly checking properties such as the 
-absence of runtime errors is impossible in general, for mathematical reasons. 
-Static analysis by abstract interpretation works around this impossibility 
-and proves program properties by over-approximating the possible behaviors of 
-the program: it is possible to design pessimistic approximations that, in 
-practice, allow proving the desired property on a wide range of software
-.”
-
-“So far, ASTRÉE has proved the absence of runtime errors in the primary 
-control software of the Airbus A340 family. This would be impossible by 
-software testing, for testing only considers a limited subset of the test 
-cases, while abstract interpretation considers a superset of all possible 
-outcomes of the system.”
-
-“ASTRÉE is written in OCaml and is about 44000 lines long (plus external 
-libraries). We needed a language with good performance (speed and memory usage
-) on reasonable equipment, easy support for advanced data structures, and 
-type and memory safety. OCaml also allows for modular, clear and compact 
-source code and makes it easy to work with recursive structures such as 
-syntax trees.”
-[[}]]
-
-
-● How GNU C lib handles backward compatibility: [[{TODO]]
-@[https://developers.redhat.com/blog/2019/08/01/how-the-gnu-c-library-handles-backward-compatibility/]
 [[}]]
 
 ● Efficient string copying & concatenation: [[{101.strings]]
 @[https://developers.redhat.com/blog/2019/08/12/efficient-string-copying-and-concatenation-in-c/]
 [[}]]
 
-● ZZ [[{qa,formal_proofs]]
+● ZZ transpiler (to ANSI-C) [[{qa.formal_proofs.zz,]]
 @[https://www.infoq.com/news/2020/02/zz-formal-verified-c-dialect/]
 
-ZetZ, or ZZ for short, is a Rust-inspired C dialect that is able to formally 
-verify your code by executing it symbolically at compile time in a virtual 
-machine.
 
-ZZ is targeted to software that runs close to hardware but it can be also used 
-to build cross-platform, ANSI-C compliant libraries. Actually, ZZ works as a 
-transpiler to C code, which is then fed into any standard C compiler. In 
-contrast to how many modern languages approach safety, ZZ does not preclude or 
-limit features that are deemed "unsafe", such as raw pointer access. Rather, it 
-uses static single assignment form (SSA) to prove your code is undefined 
-behaviour-free at compile time in a SMT prover such as yices2 or z3.
+ZetZ, or ZZ for short, is a Rust-inspired C dialect that is able to formally
+verify your code by executing it symbolically at compile time in a virtual
+machine.
+- targeted to software running "close to hardware", can also be
+  used to build cross-platform, ANSI-C compliant libraries.
+- In contrast to how many modern languages approach safety, ZZ does not
+  preclude or limit features that are deemed "unsafe", such as raw pointer
+  access. Rather, it uses static single assignment form (SSA) to prove your
+  code is undefined behaviour-free at compile time in a SMT prover such as
+  yices2 or z3.
 [[}]]
 
-● What's new: [[{TODO]]
-  C++20 Is Now Final, C++23 At Starting Blocks 
-@[https://www.infoq.com/news/2020/09/cpp-20-final/] 
+● What's new: [[{01_PM.NEW]]
+  C++20 Is Now Final, C++23 At Starting Blocks
+@[https://www.infoq.com/news/2020/09/cpp-20-final/]
 
-  GCC 10 C++ features 
+  GCC 10 C++ features
 @[https://developers.redhat.com/blog/2020/09/24/new-c-features-in-gcc-10/]
 
 - ISO C: July 2019
 @[https://developers.redhat.com/blog/2019/09/03/report-from-july-2019-iso-c-meeting-core-language/]
 
 
-- Changes in the C++ ABI between RHEL 7 and RHEL 8 are due to 
-  introducing new versions of std::string and std::list in the C++ 
-  standard library. For details about the changes to the std::string 
-  ABI, see Jason Merril’s article, GCC5 and the C++11 ABI. The 
-  changes to the C++ ABI apply to all language modes, so it doesn’t 
-  matter whether you are compiling for -std=c++11 or any other -std 
+- Changes in the C++ ABI between RHEL 7 and RHEL 8 are due to
+  introducing new versions of std::string and std::list in the C++
+  standard library. For details about the changes to the std::string
+  ABI, see Jason Merril’s article, GCC5 and the C++11 ABI. The
+  changes to the C++ ABI apply to all language modes, so it doesn’t
+  matter whether you are compiling for -std=c++11 or any other -std
   option.
   https://developers.redhat.com/blog/2015/02/05/gcc5-and-the-c11-abi/
-[[}]]
-
-● Live Recorder 5  [[{TODO]]
-@[https://www.infoq.com/news/2019/12/undo-live-recorder/]
-- Earlier in the year the Undo team released Live Recorder 5, the 
-  latest version of their “software flight recorder technology” for 
-  C/C++, Rust, and Go applications that enables the capture of all 
-  nondeterministic data within an application’s execution for 
-  debugging purposes. The captured recording allows the recreation of 
-  an application’s entire memory and the register state, which 
-  supports the replay of execution steps, backwards and forwards, via 
-  the UndoDB debugger. At the recent QCon San Francisco conference, 
-  InfoQ sat down with Dr Greg Law, co-founder and CTO at Undo, in order 
-  to learn more.
 [[}]]
 
 ● Simplified Wrapper and interface Generator [[{]]
   http://www.swig.org/
 (used by NumPy for example: https://docs.scipy.org/doc/numpy/reference/swig.interface-file.html)
-SWIG is a software development tool that connects programs written in 
-C and C++ with a variety of high-level programming languages. SWIG is 
-used with different types of target languages including common 
-scripting languages such as Javascript, Perl, PHP, Python, Tcl and 
-Ruby. The list of supported languages also includes non-scripting 
-languages such as C#, D, Go language, Java including Android, Lua, 
-OCaml, Octave, Scilab and R. Also several interpreted and compiled 
-Scheme implementations (Guile, MzScheme/Racket) are supported. SWIG 
-is most commonly used to create high-level interpreted or compiled 
-programming environments, user interfaces, and as a tool for testing 
-and prototyping C/C++ software. SWIG is typically used to parse C/C++ 
-interfaces and generate the 'glue code' required for the above target 
-languages to call into the C/C++ code. SWIG can also export its parse 
-tree in the form of XML. SWIG is free software and the code that SWIG 
-generates is compatible with both commercial and non-commercial 
-projects. 
+ - SDK connecting  C and C++ with a variety of high-level languages.
+ SWIG is
+used with different types of target languages including common
+scripting languages such as Javascript, Perl, PHP, Python, Tcl and
+Ruby. The list of supported languages also includes non-scripting
+languages such as C#, D, Go language, Java including Android, Lua,
+OCaml, Octave, Scilab and R. Also several interpreted and compiled
+Scheme implementations (Guile, MzScheme/Racket) are supported. SWIG
+is most commonly used to create high-level interpreted or compiled
+programming environments, user interfaces, and as a tool for testing
+and prototyping C/C++ software. SWIG is typically used to parse C/C++
+interfaces and generate the 'glue code' required for the above target
+languages to call into the C/C++ code. SWIG can also export its parse
+tree in the form of XML. SWIG is free software and the code that SWIG
+generates is compatible with both commercial and non-commercial
+projects.
 [[}]]
 
 
-● Google Propeller: [[{TODO]]
+● Google Propeller: [[{01_PM.TODO]]
 @[https://www.infoq.com/news/2020/03/google-propeller-llvm-optmizer/]
 [[}]]
 
-● Subset C Compiler [[{TODO]]
+● Subset C Compiler [[{01_PM.TODO]]
 https://github.com/sudheesh001/SubsetC
-Subset C Compiler built to handle basic compiler functionality with a 
-language thats similar to C. It generates intermediate code and 
-possible code generation. 
+Subset C Compiler built to handle basic compiler functionality with a
+language thats similar to C. It generates intermediate code and
+possible code generation.
 [[}]]
 
 ● Static analysis in GCC 10: [[{qa.code]]
@@ -444,29 +253,29 @@ https://developers.redhat.com/blog/2020/03/26/static-analysis-in-gcc-10/
 
 By David Malcolm March 26, 2020
 
-I work at Red Hat on GCC, the GNU Compiler Collection. For the next 
-major release of GCC, GCC 10, I’ve been implementing a new 
--fanalyzer option: A static analysis pass to identify various 
+I work at Red Hat on GCC, the GNU Compiler Collection. For the next
+major release of GCC, GCC 10, I’ve been implementing a new
+-fanalyzer option: A static analysis pass to identify various
 problems at compile-time, rather than at runtime.
 
-My thinking here is that it’s best to catch problems as early as 
-possible as the code is written, using the compiler the code is 
-written in as part of the compile-edit-debug cycle, rather than 
-having static analysis as an extra tool “on the side” (perhaps 
-proprietary). Hence, it seems worthwhile to have a static analyzer 
-built into the compiler that can see exactly the same code as the 
+My thinking here is that it’s best to catch problems as early as
+possible as the code is written, using the compiler the code is
+written in as part of the compile-edit-debug cycle, rather than
+having static analysis as an extra tool “on the side” (perhaps
+proprietary). Hence, it seems worthwhile to have a static analyzer
+built into the compiler that can see exactly the same code as the
 compiler sees—because it is the compiler.
 
-This issue is, of course, a huge problem to tackle. For this release, 
-I’ve focused on the kinds of problems seen in C code—and, in 
-particular double-free bugs—but with a view toward creating a 
-framework that we can expand on in subsequent releases (when we can 
+This issue is, of course, a huge problem to tackle. For this release,
+I’ve focused on the kinds of problems seen in C code—and, in
+particular double-free bugs—but with a view toward creating a
+framework that we can expand on in subsequent releases (when we can
 add more checks and support languages other than C).
 
-My hope is that the analyzer provides a decent amount of extra 
-checking while not being too expensive. I’ve aimed for -fanalyzer 
-to “merely” double the compile time as a reasonable trade-off for 
-the extra checks. I haven’t succeeded yet, as you’ll see below, 
+My hope is that the analyzer provides a decent amount of extra
+checking while not being too expensive. I’ve aimed for -fanalyzer
+to “merely” double the compile time as a reasonable trade-off for
+the extra checks. I haven’t succeeded yet, as you’ll see below,
 but I’m working on it.
 
 https://developers.redhat.com/blog/2021/01/28/static-analysis-updates-in-gcc-11?sc_cid=7013a0000026SuaAAE#
@@ -500,49 +309,49 @@ For GCC 11, I've added four new warnings:
     -Wanalyzer-shift-count-negative
     -Wanalyzer-shift-count-overflow
 
-I am still developing -fanalyzer only for C in GCC 11. I added 
-partial support for C++'s new and deleteBut there are enough missing 
-features that it's not yet worth using on real C++ code. I plan to 
-make the analyzer robust and scalable for C code in GCC 11 and defer 
+I am still developing -fanalyzer only for C in GCC 11. I added
+partial support for C++'s new and deleteBut there are enough missing
+features that it's not yet worth using on real C++ code. I plan to
+make the analyzer robust and scalable for C code in GCC 11 and defer
 C++ support to GCC 12.
 
-GCC 11 will be in Fedora 34, which should also be out in the spring 
-of 2021. For simple code examples, you can play around with the new 
-GCC online at godbolt.org. Select your GCC "trunk" and add -fanalyzer 
+GCC 11 will be in Fedora 34, which should also be out in the spring
+of 2021. For simple code examples, you can play around with the new
+GCC online at godbolt.org. Select your GCC "trunk" and add -fanalyzer
 to the compiler options. Have fun!
 [[}]]
 
-● Google TCMalloc: [[{TODO]]
+● Google TCMalloc: [[{01_PM.TODO]]
 TCMalloc, Google's Customized Memory Allocator for C and C++, Now Open Source
-https://www.infoq.com/news/2020/02/google-tc-malloc-open-source/ 
+https://www.infoq.com/news/2020/02/google-tc-malloc-open-source/
 [[}]]
 
 
-● C/C++ aliasing joys/perils: [[{TODO]]
+● C/C++ aliasing joys/perils: [[{01_PM.TODO]]
 101 https://developers.redhat.com/blog/2020/06/02/the-joys-and-perils-of-c-and-c-aliasing-part-1/
 The joys and perils of C and C++ aliasing, Part 1
 [[}]]
 
 
-● Radare Reverse-Engineering [[{cli,reverse-engineering,forensics,security,binary-analysis,malware-analysis,disassembler,TODO]]
+● Radare Reverse-Engineering [[{cli,reverse-engineering,forensics,security,binary-analysis,malware-analysis,disassembler,01_PM.TODO]]
 @[www.radare.org/]
 @[https://github.com/radareorg/radare2]
 UNIX-like reverse engineering framework and command-line toolset
 [[}]]
- 
 
-● Conan Package Manager: [[{qa.UX,TODO]]
+
+● Conan Package Manager: [[{qa.UX,01_PM.TODO]]
 https://conan.io/
 Conan, the C/C++ Package Manager
-The open source, decentralized and multi-platform packagemanager to 
+The open source, decentralized and multi-platform packagemanager to
 create and share all your native binaries.
 [[}]]
 
-● CXX Safe Interoperability Rust:[[{rust,interoperability,TODO]]
+● CXX Safe Interoperability Rust:[[{rust,interoperability,01_PM.TODO]]
 https://www.infoq.com/news/2020/12/cpp-rust-interop-cxx/
 [[}]]
 
-● CoreDumper:[[{troubleshooting.debugger,TODO]]
+● CoreDumper:[[{troubleshooting.debugger,01_PM.TODO]]
 @[https://github.com/AmadeusITGroup/CoreDumper]
 Clone of https://code.google.com/p/google-coredumper/ with enhancements by Amadeus
 
@@ -557,7 +366,7 @@ services by attaching a debugger, nor is it possible to crash the
 service in order to generate a core file.
 [[}]]
 
-● Cheerp WebAssembly Compiler: [[{webassembly,TODO]]
+● Cheerp WebAssembly Compiler: [[{webassembly,01_PM.TODO]]
 @[https://www.leaningtech.com/pages/cheerp.html]
 [[}]]
 
@@ -578,7 +387,7 @@ https://blog.llvm.org/posts/2020-12-21-interactive-cpp-for-data-science/
 [[}]]
 
 
-● Performance boost tips in 'ag' search [[{performance,strings,regex,TODO]]
+● Performance boost tips in 'ag' search [[{performance,strings,regex,01_PM.TODO]]
 https://github.com/ggreer/the_silver_searcher
 How is it so fast?
 - Ag uses Pthreads to take advantage of multiple CPU cores and search files in parallel.
@@ -593,15 +402,15 @@ How is it so fast?
 ● astyle [[{qa]]
 https://github.com/tldr-pages/tldr/blob/master/pages/common/astyle.mode
 
-Source code indenter, formatter, and beautifier for the C, C++, C# 
-and Java programming languages. Upon running, a copy of the original 
-file is created with an ".orig" appended to the original file name. 
+Source code indenter, formatter, and beautifier for the C, C++, C#
+and Java programming languages. Upon running, a copy of the original
+file is created with an ".orig" appended to the original file name.
 More information: http://astyle.sourceforge.net/.
 [[}]]
 
 ● cppcheck  [[{]]
 @[https://github.com/tldr-pages/tldr/blob/master/pages/common/cppcheck.md] @ma
-Static analysis tool for C/C++ code. 
+Static analysis tool for C/C++ code.
 it focuses on the types of bugs that compilers normally do not detect
 
 cppcheck
@@ -614,11 +423,11 @@ cppcheck . 2> cppcheck.log
 
     Recursively check a given directory, and don't print progress messages:
 
-cppcheck --quiet {{path/to/directory}}
+cppcheck --quiet ${path/to/directory}
 
     Check a given file, specifying which tests to perform (by default only errors are shown):
 
-cppcheck --enable={{error|warning|style|performance|portability|information|all}} {{path/to/file.cpp}}
+cppcheck --enable=${error|warning|style|performance|portability|information|all} ${path/to/file.cpp}
 
     List available tests:
 
@@ -626,19 +435,19 @@ cppcheck --errorlist
 
     Check a given file, ignoring specific tests:
 
-cppcheck --suppress={{test_id1}} --suppress={{test_id2}} {{path/to/file.cpp}}
+cppcheck --suppress=${test_id1} --suppress=${test_id2} ${path/to/file.cpp}
 
     Check the current directory, providing paths for include files located outside it (e.g. external libraries):
 
-cppcheck -I {{include/directory_1}} -I {{include/directory_2}} .
+cppcheck -I ${include/directory_1} -I ${include/directory_2} .
 
     Check a Microsoft Visual Studio project (*.vcxproj) or solution (*.sln):
 
-cppcheck --project={{path/to/project.sln}}
+cppcheck --project=${path/to/project.sln}
 [[}]]
 
 
-https://github.com/tldr-pages/tldr/blob/master/pages/common/cppclean.md 
+https://github.com/tldr-pages/tldr/blob/master/pages/common/cppclean.md
 Find unused code in C++ projects. More information: https://github.com/myint/cppclean.
 ######################
 https://github.com/tldr-pages/tldr/blob/master/pages/common/ctags.md @ma
@@ -660,7 +469,7 @@ List breakpoints:
  $ info breakpoints
 Save breakpoints:
  $ save breakpoints ˂filename˃
-Restore breakpoints: 
+Restore breakpoints:
 1.- Add first the line ""set breakpoint pending on to ˂filename˃"".
 2.- $ source ˂filename˃
 ""Moving"":
@@ -671,7 +480,7 @@ Restore breakpoints:
 "ref: http://stackoverflow.com/questions/1354637/watchpoint-in-gdb
 ""command"" can be used to set a list of GDB commands to execute whenever a breakpoint is hit. Very useful:
 
-Ex1: ""Suppose that I have a function format that is called by a lot of other functions. I want to break on it, 
+Ex1: ""Suppose that I have a function format that is called by a lot of other functions. I want to break on it,
 but only after function do_step_3 has been called.""
 
 break do_step_3
@@ -683,7 +492,7 @@ end
 "Conditional watch:
  $ watch my_var if my_var ˃ 3
 ---------------------
-"You can set a watchpoint that does not go out of scope by setting it to the memory address. 
+"You can set a watchpoint that does not go out of scope by setting it to the memory address.
 
 (gdb) p &var1
 $1 = (int *) 0x41523c0
@@ -732,12 +541,12 @@ thbreak -- Set a temporary hardware assisted breakpoint · · ·|trace -- Set a 
 watch -- Set a watchpoint for an expression
 
 ######################
-Compiles resource files (e.g. images) into a binary resource bundle. 
+Compiles resource files (e.g. images) into a binary resource bundle.
 These may be linked into GTK applications using the GResource API.
 https://github.com/tldr-pages/tldr/blob/master/pages/common/glib-compile-resources.md
 ######################
 Indent
-Change the appearance of a C/C++ program by inserting or deleting 
+Change the appearance of a C/C++ program by inserting or deleting
 whitespace. More information: https://www.gnu.org/software/indent/.
 https://github.com/tldr-pages/tldr/blob/master/pages/common/indent.md
 #########################
@@ -780,7 +589,7 @@ SEE ALSO
 https://github.com/tldr-pages/tldr/blob/master/pages/common/make.md @ma
 ##########################
 https://github.com/tldr-pages/tldr/blob/master/pages/common/msbuild.md
-    The Microsoft build tool for Visual Studio project solutions. 
+    The Microsoft build tool for Visual Studio project solutions.
 More information: https://docs.microsoft.com/visualstudio/msbuild.
 ##########################
 https://github.com/tldr-pages/tldr/blob/master/pages/common/nasm.md
@@ -794,13 +603,13 @@ https://github.com/tldr-pages/tldr/blob/master/pages/common/objdump.md  101
 - View information about object files.
 ########################
 https://github.com/tldr-pages/tldr/blob/master/pages/common/opt.md
-A tool that takes LLVM source files and runs specified 
-optimizations and/or analyses on them. More information: 
+A tool that takes LLVM source files and runs specified
+optimizations and/or analyses on them. More information:
 https://llvm.org/docs/CommandGuide/opt.html.
 
 ● Autotools  [[{]]
 http://www.lrde.epita.fr/~adl/autotools.html"
-Autotools vs SCons vs CMake: 
+Autotools vs SCons vs CMake:
 @[http://stackoverflow.com/questions/4071880/autotools-vs-cmake-vs-scons]
 www-alt.gsi.de/documents/DOC-2007-Sep-17-1.pdf
 
@@ -815,65 +624,65 @@ http://fr.wikipedia.org/wiki/Autotools
 
 
   Configure.in ─────────────˃ Autoconf ───˃ Configure
-                                ^ 
-  Aclocal ────→ Aclocal.mp4 ────┘ 
+                                ^
+  Aclocal ────→ Aclocal.mp4 ────┘
 
 
   (Makefile.am, Configure.in) - -˃ Automake - -˃ Makefile.in
 
 
   (Aclocal) -˃ Aclocal.mp4
-  
-  
+
+
   (Configure.in, Aclocal.mp4) -˃ Autoconf -˃ Configure
-  
-  
+
+
   (Makefile.in) -˃ Configure -˃ Makefile
-  
+
   (Configure.in, Accconfig.h) -˃ Autoheader -˃ Config.h.in -˃ Configure
-  
-  
+
+
   Configure.in: Options we want to test in our system (library dependencies,...)
-  Makefile.am : Tells how the code must be build. It has a serie of Automake 
+  Makefile.am : Tells how the code must be build. It has a serie of Automake
                 macro definitions with the form:
                 variable = value
   Autoheader  : Helps to sync header (include ...) dependencies."
-  
+
   Autotools Mythbuster: https://autotools.io/index.html
 
     When                Command     Actions
   -------------------------------------------------------------------------------------
     Start of project    autoscan    Creates template file for Configure.in
                                     Writes Makefile.am (program structure)
-    
+
                         aclocal     To install extra utility tools for automake
-    
+
                         autoheader  To determine pre-processor variables to be defined,
                                     and saving them to 'config.h.in' file
   -------------------------------------------------------------------------------------
     at start or when    autoconf    Creates 'configure' from 'Configure.in'
-    'configure.in' 
+    'configure.in'
     is modified
   -------------------------------------------------------------------------------------
     at start or when    automake    Creates 'Makefile.in' from 'Makefile.am'
     'makefile.in' is
-    lost                    
+    lost
   -------------------------------------------------------------------------------------
     To change config.   configure   Creates 'Makefile' and 'config.h' depending on
                                     compilation options choosen.
   -------------------------------------------------------------------------------------
     To compile sources  make        Compile les sources ou met à jour les binaires
-    to executable       
+    to executable
   -------------------------------------------------------------------------------------
 [[}]]
 
-● Valgrind  [[{Valgrind,debugging,profiling,qa,TODO]]  101
+● Valgrind  [[{Valgrind,debugging,profiling,qa,01_PM.TODO]]  101
 @[http://valgrind.org/docs/manual/manual.html]
 http://valgrind.org/docs/manual/cg-manual.html
 - Memcheck   : memory error detector.               [debugging]
 
 - Cachegrind : cache and branch-prediction profiler [profiling]
-- Callgrind  : call-graph generating cache profiler.  
+- Callgrind  : call-graph generating cache profiler.
                some overlap with Cachegrind but also gathers
                extra information.
 
@@ -894,14 +703,14 @@ http://valgrind.org/docs/manual/cg-manual.html
 "Profiling C/C++: (Stackoverflow)
 You can use valgrind with the following options
 valgrind --tool=callgrind ./(Your binary)
-It will generate a file called callgrind.out.x. You can then use 
-kcachegrind tool to read this file. It will give you a graphical 
-analysis of things with results like which lines cost how much. 
+It will generate a file called callgrind.out.x. You can then use
+kcachegrind tool to read this file. It will give you a graphical
+analysis of things with results like which lines cost how much.
         ________
 "
-"Answer to run valgrind --tool=callgrind is not quite 
-complete without some options. We usually do not want to profile 10 
-minutes of slow startup time under valgrind and want to profile our 
+"Answer to run valgrind --tool=callgrind is not quite
+complete without some options. We usually do not want to profile 10
+minutes of slow startup time under valgrind and want to profile our
 program when it is doing some task.
 
 So this is what I recommend. Run program first:
@@ -920,10 +729,10 @@ Now we have some files named callgrind.out.* in current directory. To see profil
 
 kcachegrind callgrind.out.*
 
-I recommend in next window to click on ""Self"" column header, 
-otherwise it shows that ""main()"" is most time consuming task. ""Self"" 
-shows how much each function itself took time, not together with 
-dependents. 
+I recommend in next window to click on ""Self"" column header,
+otherwise it shows that ""main()"" is most time consuming task. ""Self""
+shows how much each function itself took time, not together with
+dependents.
 [[}]]
 
 ● PROFILING: [[{]]
@@ -950,54 +759,54 @@ http://stackoverflow.com/questions/2497211/how-to-profile-multi-threaded-c-appli
 http://stackoverflow.com/questions/375913/what-can-i-use-to-profile-c-code-in-linux/378024#378024
 -------------------------------------------------------------------
 PROFILING:
-""Have a look at oprofile. The profiling overhead of this tool is negligible and it supports 
-multithreaded applications---as long as you don't want to profile mutex 
-contention (which is a very important part of profiling multithreaded 
+""Have a look at oprofile. The profiling overhead of this tool is negligible and it supports
+multithreaded applications---as long as you don't want to profile mutex
+contention (which is a very important part of profiling multithreaded
 applications)""
 --------------------------------------------
 "http://poormansprofiler.org/                                                          [[{qa.UX]]
-""Sampling tools like oprofile or dtrace's profile provider don't really provide      
-methods to see what [multithreaded] programs are blocking on - only where they spend 
-CPU time. 
+""Sampling tools like oprofile or dtrace's profile provider don't really provide
+methods to see what [multithreaded] programs are blocking on - only where they spend
+CPU time.
 Though there exist advanced techniques (such as systemtap and dtrace call level probes),
 it is overkill to build upon that. Poor man doesn't have time. Poor man needs food. "" [[}]]
 
 ● SystemTAP, PROFILING:                        [[{]]
-  "In order to aid in debugging and monitoring internal behavior, the 
-  GNU C Library exposes nearly-zero-overhead SystemTap probes marked 
-  with the libc provider.  These probes are not part of the GNU C 
-  Library stable ABI, and they are subject to change or removal across 
-  releases. Our only promise with regard to them is that, if we find a 
-  need to remove or modify the arguments of a probe, the modified probe 
-  will have a different name, so that program monitors relying on the 
+  "In order to aid in debugging and monitoring internal behavior, the
+  GNU C Library exposes nearly-zero-overhead SystemTap probes marked
+  with the libc provider.  These probes are not part of the GNU C
+  Library stable ABI, and they are subject to change or removal across
+  releases. Our only promise with regard to them is that, if we find a
+  need to remove or modify the arguments of a probe, the modified probe
+  will have a different name, so that program monitors relying on the
   old probe will not get unexpected arguments.  [[}]]
 
 ● perf                                 [[{]
-"Newer kernels (e.g. the latest Ubuntu kernels) come with the new 
+"Newer kernels (e.g. the latest Ubuntu kernels) come with the new
 'perf' tools (apt-get install linux-tools) aka perf_events
 http://web.archive.org/web/20111105130616/http://blog.bepointbe.be/index.php/2008/10/19/30-a-bit-of-plasma-profiling
 
 These come with classic sampling profilers (man-page) as well as the awesome timechart!
 
 The important thing is that these tools can be system profiling
- and not just process profiling - they can show the interaction between 
-threads, processes and the kernel and let you understand the scheduling 
+ and not just process profiling - they can show the interaction between
+threads, processes and the kernel and let you understand the scheduling
 and IO dependencies between processes.  [[}]]
 
-● oprofile  is good because it makes it much easier than gprof 
+● oprofile  is good because it makes it much easier than gprof
   to profile multiple programs at once. You also can run it
-  on your release build (if it has symbols), instead of having to build 
+  on your release build (if it has symbols), instead of having to build
   a special profiling build.
-  If you don't care about taking a massive performance hit (50x), 
+  If you don't care about taking a massive performance hit (50x),
   valgrind (cachegrind) is good.
 ------------------------------------------
-You can use callgrind. Together with KCacheGrind, it gives a pretty 
-nice profiler. Besides that, Intel VTune is free for educational use 
-on Linux. It is probably the best profiler out there. If you have an 
-AMD CPU, use AMD Codeanalyst (succeeded by AMD’s CodeXL), which is 
+You can use callgrind. Together with KCacheGrind, it gives a pretty
+nice profiler. Besides that, Intel VTune is free for educational use
+on Linux. It is probably the best profiler out there. If you have an
+AMD CPU, use AMD Codeanalyst (succeeded by AMD’s CodeXL), which is
 also available for Linux; this one is only decent, but free.
 
-  I would use Valgrind and Callgrind as a base for my profiling tool suite. 
+  I would use Valgrind and Callgrind as a base for my profiling tool suite.
 What is important to know is that Valgrind is basically a Virtual Machine:
   (wikipedia) Valgrind is in essence a virtual
   machine using just-in-time (JIT)  compilation techniques, including
@@ -1007,48 +816,48 @@ What is important to know is that Valgrind is basically a Virtual Machine:
   (IR), which is a processor-neutral,  SSA-based form. After the conversion,
   a tool (see below) is free to do  whatever transformations it would like
   on the IR, before Valgrind translates  the IR back into machine code and
-  lets  the host processor run it. 
+  lets  the host processor run it.
 
-     Callgrind is a profiler build upon that. Main benefit is that you 
-   don't have to run your aplication for hours to get reliable result. 
-   Even one second run is sufficient to get rock-solid, reliable 
-   results, because Callgrind is a non-probing profiler. 
+     Callgrind is a profiler build upon that. Main benefit is that you
+   don't have to run your aplication for hours to get reliable result.
+   Even one second run is sufficient to get rock-solid, reliable
+   results, because Callgrind is a non-probing profiler.
 
-  Another tool build upon Valgrind is Massif. I use it to profile heap 
-  memory usage. It works great. What it does is that it gives you 
-  snapshots of memory usage -- detailed information WHAT holds WHAT 
-  percentage of memory, and WHO had put it there. Such information is 
+  Another tool build upon Valgrind is Massif. I use it to profile heap
+  memory usage. It works great. What it does is that it gives you
+  snapshots of memory usage -- detailed information WHAT holds WHAT
+  percentage of memory, and WHO had put it there. Such information is
   available at different points of time of application run
 
 ● SystemTap [[{]]
 "https://access.redhat.com/site/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Deployment_Guide/s1-oprofile-and-systemtap.html
 
-SystemTap is a tracing and probing tool that allows users to study 
-and monitor the activities of the operating system in fine detail. It 
-provides information similar to the output of tools like netstat, ps, 
-top, and iostat; however, SystemTap is designed to provide more 
+SystemTap is a tracing and probing tool that allows users to study
+and monitor the activities of the operating system in fine detail. It
+provides information similar to the output of tools like netstat, ps,
+top, and iostat; however, SystemTap is designed to provide more
 filtering and analysis options for collected information.
-                
-˃˃˃˃˃˃While using OProfile is suggested in cases of collecting 
-data on where and why the processor spends time in a particular area 
-of code, it is less usable when finding out why the processor stays 
+
+˃˃˃˃˃˃While using OProfile is suggested in cases of collecting
+data on where and why the processor spends time in a particular area
+of code, it is less usable when finding out why the processor stays
 idle. ˂˂˂˂˂
-                
-You might want to use SystemTap when instrumenting specific places in 
-code. Because SystemTap allows you to run the code instrumentation 
-without having to stop and restart the instrumentation, it is 
+
+You might want to use SystemTap when instrumenting specific places in
+code. Because SystemTap allows you to run the code instrumentation
+without having to stop and restart the instrumentation, it is
 particularly useful for instrumenting the kernel and daemons.
-                
-For more information on SystemTap, refer to Section 26.11.2, 
+
+For more information on SystemTap, refer to Section 26.11.2,
 “Useful Websites” for the relevant SystemTap documentation. [[}]]
 ------------------------------------
 
 ● google-perftools
  https://code.google.com/p/gperftools/?redir=1
-  google-perftools is the only reasonable alternative to gprof I've 
-found. It's quite usable, familiar, and I believe it's time sampling, 
-so that IO bottlenecks are revealed, in addition to the usual CPU 
-bottle necks that gprof discovers. It's also significantly less 
+  google-perftools is the only reasonable alternative to gprof I've
+found. It's quite usable, familiar, and I believe it's time sampling,
+so that IO bottlenecks are revealed, in addition to the usual CPU
+bottle necks that gprof discovers. It's also significantly less
 invasive.
 
 [[}]]
@@ -1064,7 +873,7 @@ it can be used to generate a raw binary file by using an output target of binary
 ------------------
 "Ref: http://permalink.gmane.org/gmane.comp.gnu.binutils/11292:
 turning (part of) an executable into a shared objectI have executables with some extra read-only data in a non-standard section
- ("".debug_cfg"" instead of "".data"" or "".rodata"").  I would like to take a linked executable and extract just this data into a 
+ ("".debug_cfg"" instead of "".data"" or "".rodata"").  I would like to take a linked executable and extract just this data into a
 standalone file.  Furthermore, I would like the extracted data to be navigable by an unrelated application using dlopen() and
  dlsym().  I am working on a Linux x86 box with ELF binaries, and while portability is always welcome, that specific platform is
  currently my top priority.
@@ -1080,9 +889,9 @@ gcc is perfectly willing to turn that extracted data into a shared object:
 
 I can write a program that dlopen()'s this shared object and uses dlsym() to fetch the address of a symbol that I know should be
  present in the "".debug_cfg"" section.  That symbol refers to a structure containing string pointer fields, non-string pointer
- fields, and non-pointer fields.  The string pointer fields should point into "".rodata"", while the non-string pointer fields 
+ fields, and non-pointer fields.  The string pointer fields should point into "".rodata"", while the non-string pointer fields
 always point to other data also in the "".debug_cfg"" section.  What I find, is that the non-pointer fields have correct values,
- but the pointer fields do not.  
+ but the pointer fields do not.
 
 Presumably we lost some important reloc information when we linked the executable.  We can explicitly ask the linker to keep
  that information around.  Unfortunately, that leads to an error when turning the extracted data into a shared object:
@@ -1108,44 +917,44 @@ Is there any way to make this alchemical trick work?  How can I extract selected
 -------------------------
 http://gcc.gnu.org/ml/gcc-help/2012-10/msg00159.html
 From: Michael Zintakis ˂michael dot zintakis at googlemail dot com˃
-I'm only not sure if the kernel know all the sorts of ELF sections and segments ld.so can handle. 
-Probably you'll need to modify kernel code to walk over DYNAMIC 
-segment (which keeps the list of dependencies) to verify the shared 
+I'm only not sure if the kernel know all the sorts of ELF sections and segments ld.so can handle.
+Probably you'll need to modify kernel code to walk over DYNAMIC
+segment (which keeps the list of dependencies) to verify the shared
 objects an application depends on.
-It looks as though I have to reconsider my initial approach - even 
-though I could read that segment (not an easy task though), there is 
-no way the kernel alone could find all dependencies based on that 
-section (there could be .so files, which have dependencies on other 
-.so files and so on), so I have to change ld.so in order to be able 
-to do what the kernel does and verify the files to be loaded. That 
-would be in addition to the kernel doing the verification of the 
+It looks as though I have to reconsider my initial approach - even
+though I could read that segment (not an easy task though), there is
+no way the kernel alone could find all dependencies based on that
+section (there could be .so files, which have dependencies on other
+.so files and so on), so I have to change ld.so in order to be able
+to do what the kernel does and verify the files to be loaded. That
+would be in addition to the kernel doing the verification of the
 initial executable.
 
-Yes, but a statically linked executable can also call dlopen(), 
+Yes, but a statically linked executable can also call dlopen(),
 mmap() (As it was noted later).
- 
-Yep, and given what I wrote in the previous paragraph above, it looks 
+
+Yep, and given what I wrote in the previous paragraph above, it looks
 as though ld.so also needs to be capable of doing the verification.
 
-On a slightly brighter node, (dynamically) adding new sections to ELF 
-turned out to be an easy task, even if the executable/.so file is 
-already compiled/built - all I have to do is execute ""objcopy 
---add-section ˂section_name˃=˂section_file˃ ˂infile˃"" and then 
-""objcopy --set-section-flags ˂section_name˃=˂flags˃ ˂infile˃"" 
-to set the appropriate flags to ˂section_name˃ (""readonly"" in my 
-case). As soon as this is done, the section is added (with its 
-content set from the content of ˂section_file˃) and the appropriate 
+On a slightly brighter node, (dynamically) adding new sections to ELF
+turned out to be an easy task, even if the executable/.so file is
+already compiled/built - all I have to do is execute ""objcopy
+--add-section ˂section_name˃=˂section_file˃ ˂infile˃"" and then
+""objcopy --set-section-flags ˂section_name˃=˂flags˃ ˂infile˃""
+to set the appropriate flags to ˂section_name˃ (""readonly"" in my
+case). As soon as this is done, the section is added (with its
+content set from the content of ˂section_file˃) and the appropriate
 reallocation of the ELF binary is ""automatically"" done by objcopy.
 
-My initial intent was to create a new section in the ELF header, but 
-I could not find an easy way to do that either during compile time or 
-when the executable/.so file is already built, so placing my 
-""custom"" section in the ELF section header by using objcopy seems a 
+My initial intent was to create a new section in the ELF header, but
+I could not find an easy way to do that either during compile time or
+when the executable/.so file is already built, so placing my
+""custom"" section in the ELF section header by using objcopy seems a
 good choice and I don't have to recompile everything.
 
-Next, I'll look for ways in which the binary/.so loading could be 
-bypassed (to prevent verification) so that when I change the kernel 
-and the ld.so code later on, to prevent that from happening and 
+Next, I'll look for ways in which the binary/.so loading could be
+bypassed (to prevent verification) so that when I change the kernel
+and the ld.so code later on, to prevent that from happening and
 enforce verification in all cases, when desired.
 
 ________________________
@@ -1183,7 +992,7 @@ make functions.  Every non-continued line that starts with a TAB is part of a co
  Continued lines are always of the same type as their predecessor, regardless of what characters they start with.
 
 
- Yes, that's all of them... so far.  It's not that that's all I have to say on the subject, but coming up with points which are both truly fundamental 
+ Yes, that's all of them... so far.  It's not that that's all I have to say on the subject, but coming up with points which are both truly fundamental
 and expressible in a succinct rule format, ain't easy.
 
  Let me know if you have suggestions.
@@ -1194,13 +1003,13 @@ Paul D. Smith
 Appendix A Quick Reference
 This appendix summarizes the directives, text manipulation functions, and special variables which GNU make understands.
 See Special Targets, Catalogue of Implicit Rules, and Summary of Options, for other summaries.
-   Here is a summary of the directives GNU make recognizes:     
+   Here is a summary of the directives GNU make recognizes:
 define variable define variable =define variable :=define variable ::=define variable +=define variable ?=endefDefine multi-line variables.
 See Multi-Line. undefine variableUndefining variables.
 See Undefine Directive.
 ifdef variableifndef variableifeq (a,b)ifeq ""a"" ""b""ifeq 'a' 'b'ifneq (a,b)ifneq ""a"" ""b""ifneq 'a' 'b'elseendif Conditionally evaluate part of the makefile.
 override variable-assignmentDefine a variable, overriding any previous definition, even one from the command line.
-See The override Directive. 
+See The override Directive.
 export Tell make to export all variables to child processes by default.
 See Communicating Variables to a Sub-make.
 export variableexport variable-assignmentunexport variableTell make whether or not to export a particular variable to child processes.
@@ -1208,177 +1017,177 @@ See Communicating Variables to a Sub-make.
 private variable-assignmentDo not allow this variable assignment to be inherited by prerequisites.
 
 See Suppressing Inheritance.
-   
+
 vpath pattern pathSpecify a search path for files matching a ‘%’ pattern.
 
 See The vpath Directive.
-     
+
 vpath patternRemove all search paths previously specified for pattern.
-     
-vpathRemove all search paths previously specified in any vpath directive. 
+
+vpathRemove all search paths previously specified in any vpath directive.
 
 Here is a summary of the built-in functions (see Functions):
 
  $(subst from,to,text)Replace from with to in text.
 
 See Functions for String Substitution and Analysis.
-   
+
 $(patsubst pattern,replacement,text)Replace words matching pattern with replacement in text.
 
 See Functions for String Substitution and Analysis.
-     
+
 $(strip string)Remove excess whitespace characters from string.
 
 See Functions for String Substitution and Analysis.
-     
+
 $(findstring find,text)Locate find in text.
 
 See Functions for String Substitution and Analysis.
 
-     
+
 $(filter pattern...,text)Select words in text that match one of the pattern words.
 
 See Functions for String Substitution and Analysis.
 
-     
+
 $(filter-out pattern...,text)Select words in text that do not match any of the pattern words.
 
 See Functions for String Substitution and Analysis.
 
-     
+
 $(sort list)Sort the words in list lexicographically, removing duplicates.
 
 See Functions for String Substitution and Analysis.
 
-     
+
 $(word n,text)Extract the nth word (one-origin) of text.
 
 See Functions for String Substitution and Analysis.
 
-     
+
 $(words text)Count the number of words in text.
 
 See Functions for String Substitution and Analysis.
 
-     
+
 $(wordlist s,e,text)Returns the list of words in text from s to e.
 
 See Functions for String Substitution and Analysis.
 
-     
+
 $(firstword names...)Extract the first word of names.
 
 See Functions for String Substitution and Analysis.
 
-     
+
 $(lastword names...)Extract the last word of names.
 
 See Functions for String Substitution and Analysis.
 
-     
+
 $(dir names...)Extract the directory part of each file name.
 
 See Functions for File Names.
 
-     
+
 $(notdir names...)Extract the non-directory part of each file name.
 
 See Functions for File Names.
 
-     
+
 $(suffix names...)Extract the suffix (the last ‘.’ and following characters) of each file name.
 
 See Functions for File Names.
 
-     
+
 $(basename names...)Extract the base name (name without suffix) of each file name.
 
 See Functions for File Names.
 
-     
+
 $(addsuffix suffix,names...)Append suffix to each word in names.
 
 See Functions for File Names.
 
-     
+
 $(addprefix prefix,names...)Prepend prefix to each word in names.
 
 See Functions for File Names.
 
-     
+
 $(join list1,list2)Join two parallel lists of words.
 
 See Functions for File Names.
 
-     
+
 $(wildcard pattern...)Find file names matching a shell file name pattern (not a
 ‘%’ pattern).
 
 See The Function wildcard.
 
-     
+
 $(realpath names...)For each file name in names, expand to an absolute name that
 does not contain any ., .., nor symlinks.
 
 See Functions for File Names.
 
-     
+
 $(abspath names...)For each file name in names, expand to an absolute name that
 does not contain any . or .. components, but preserves
 symlinks.
 
 See Functions for File Names.
 
-     
+
 $(error text...)When this function is evaluated, make generates a fatal error
 with the message text.
 
 See Functions That Control Make.
 
-     
+
 $(warning text...)When this function is evaluated, make generates a warning with
 the message text.
 
 See Functions That Control Make.
 
-     
+
 $(shell command)Execute a shell command and return its output.
 
 See The shell Function.
 
-     
+
 $(origin variable)Return a string describing how the make variable variable was
 defined.
 
 See The origin Function.
 
-     
+
 $(flavor variable)Return a string describing the flavor of the make variable
 variable.
 
 See The flavor Function.
 
-     
+
 $(foreach var,words,text)Evaluate text with var bound to each word in words,
 and concatenate the results.
 
 See The foreach Function.
 
-     
+
 $(if condition,then-part[,else-part])Evaluate the condition condition; if it's non-empty substitute
 the expansion of the then-part otherwise substitute the
 expansion of the else-part.
 
 See Functions for Conditionals.
 
-     
+
 $(or condition1[,condition2[,condition3...]])Evaluate each condition conditionN one at a time; substitute the
 first non-empty expansion.  If all expansions are empty, substitute
 the empty string.
 
 See Functions for Conditionals.
 
-     
+
 $(and condition1[,condition2[,condition3...]])Evaluate each condition conditionN one at a time; if any
 expansion results in the empty string substitute the empty string.  If
 all expansions result in a non-empty string, substitute the expansion
@@ -1386,79 +1195,79 @@ of the last condition.
 
 See Functions for Conditionals.
 
-     
+
 $(call var,param,...)Evaluate the variable var replacing any references to $(1),
 $(2) with the first, second, etc. param values.
 
 See The call Function.
 
-     
-$(eval text)Evaluate text then read the results as makefile commands. 
+
+$(eval text)Evaluate text then read the results as makefile commands.
 Expands to the empty string.
 
 See The eval Function.
 
-     
+
 $(file op filename,text)Expand the arguments, then open the file filename using mode
 op and write text to that file.
 
 See The file Function.
 
-     
+
 $(value var)Evaluates to the contents of the variable var, with no expansion
 performed on it.
 
-See The value Function. 
+See The value Function.
 
 
-   Here is a summary of the automatic variables. 
+   Here is a summary of the automatic variables.
 See Automatic Variables,
 for full information.
 
      $@The file name of the target.
 
-     
+
 $%The target member name, when the target is an archive member.
 
-     
+
 $˂The name of the first prerequisite.
 
-     
+
 $?The names of all the prerequisites that are
-newer than the target, with spaces between them. 
+newer than the target, with spaces between them.
 For prerequisites which are archive members, only
 the named member is used (see Archives).
 
-     
+
 $^$+The names of all the prerequisites, with spaces between them.  For
 prerequisites which are archive members, only the named member is used
 (see Archives).  The value of $^ omits duplicate
 prerequisites, while $+ retains them and preserves their order.
 
-     
+
 $*The stem with which an implicit rule matches
 (see How Patterns Match).
 
-     
+
 $(@D)$(@F)The directory part and the file-within-directory part of $@.
 
-     
+
 $(ºD)$(ºF)The directory part and the file-within-directory part of $*.
 
-     
+
 $(%D)$(%F)The directory part and the file-within-directory part of $%.
 
-     
+
 $(˂D)$(˂F)The directory part and the file-within-directory part of $˂.
 
-     
+
 $(^D)$(^F)The directory part and the file-within-directory part of $^.
 
-     
+
 $(+D)$(+F)The directory part and the file-within-directory part of $+.
 
-     
-$(?D)$(?F)The directory part and the file-within-directory part of $?. 
+
+$(?D)$(?F)The directory part and the file-within-directory part of $?.
 
 
    These variables are used specially by GNU make:
@@ -1469,32 +1278,32 @@ VPATH Directory search path for files not found in the current directory. See VP
 
 SHELL The name of the system default command interpreter, usually /bin/sh.  You can set SHELL in the makefile to change the shell used to run recipes.  See Recipe Execution.  The SHELL variable is handled specially when importing from and exporting to the environment.  See Choosing the Shell.
 
-     
+
 MAKESHELL On MS-DOS only, the name of the command interpreter that is to be used by make.  This value takes precedence over the value of SHELL.  See MAKESHELL variable.
 
-     
+
 MAKE The name with which make was invoked.  Using this variable in recipes has special meaning.  See How the MAKE Variable Works.
 
-     
-MAKE_VERSION The built-in variable ‘MAKE_VERSION’ expands to the version number of the GNU make program. 
+
+MAKE_VERSION The built-in variable ‘MAKE_VERSION’ expands to the version number of the GNU make program.
 
 
-MAKE_HOST The built-in variable ‘MAKE_HOST’ expands to a string representing the host that GNU make was built to run on. 
+MAKE_HOST The built-in variable ‘MAKE_HOST’ expands to a string representing the host that GNU make was built to run on.
 
 
 MAKELEVEL The number of levels of recursion (sub-makes). See Variables/Recursion.
 
-     
+
 MAKEFLAGS The flags given to make.  You can set this in the environment or a makefile to set flags.
 
 See Communicating Options to a Sub-make. It is never appropriate to use MAKEFLAGS directly in a recipe line: its contents may not be quoted correctly for use in the shell.  Always allow recursive make's to obtain these values through the environment from its parent.
 
 GNUMAKEFLAGS Other flags parsed by make.  You can set this in the environment or a makefile to set make command-line flags.  GNU make never sets this variable itself.  This variable is only needed if you'd like to set GNU make-specific flags in a POSIX-compliant makefile.  This variable will be seen by GNU make and ignoredby other make implementations.  It's not needed if you only use GNU make; just use MAKEFLAGS directly. See Communicating Options to a Sub-make.
 
-     
+
 MAKECMDGOALS The targets given to make on the command line.  Setting thisvariable has no effect on the operation of make. See Arguments to Specify the Goals.
 
-     
+
 CURDIR Set to the pathname of the current working directory (after all -C options are processed, if any).  Setting this variable has no effect on the operation of make.
 
 See Recursive Use of make.
@@ -1510,31 +1319,31 @@ http://www.rainydayz.org/beej/bgc/stringref.html
 [[}]]
 
 ● gcc [[{]]
-  $ gcc 
+  $ gcc
     -g                     // add debugging info
     -Idir1 -Idir2          <-- Add directory to include search path
-    -D_FORTIFY_SOURCE=2 
+    -D_FORTIFY_SOURCE=2
     -D_ISOC99_SOURCE       <-- The GNU C Library nevertheless has a complete ISOC99 implementation of the standard. Use this macro to activate. This is actually a libc option, not a compiler option. http://www.gnu.org/software/libc/manual/html_node/Feature-Test-Macros.html
     -std=c99
     -D_FILE_OFFSET_BITS=64  <-- Usefull for apps with large files (Video, big databases,..)
-    -D_LARGEFILE_SOURCE 
-    -D_POSIX_C_SOURCE=200112 
-    -D_XOPEN_SOURCE=600 
+    -D_LARGEFILE_SOURCE
+    -D_POSIX_C_SOURCE=200112
+    -D_XOPEN_SOURCE=600
     -O2   // Code Optimization level
-    -fstack-protector 
-    --param=ssp-buffer-size=4 
-    -Wformat 
+    -fstack-protector
+    --param=ssp-buffer-size=4
+    -Wformat
     -Werror=format-security
-    -fomit-frame-pointer 
+    -fomit-frame-pointer
     -pthread // <-- activate posix trheads
-    -Wall 
+    -Wall
     -fno-math-errno
     -fno-signed-zeros
     -fno-tree-vectorize
     -MMD
-    -MF lua_avconv.d 
-    -MT lua_avconv.o 
-    -c 
+    -MF lua_avconv.d
+    -MT lua_avconv.o
+    -c
     -o lua_avconv.o lua_avconv.c
 [[}]]
 
@@ -1672,8 +1481,8 @@ http://www.rainydayz.org/beej/bgc/stringref.html
   http://www.ibm.com/developerworks/aix/library/au-aix-symbol-visibility/index.html?ca=drs-
 
 ● https://code.google.com/p/address-sanitizer/
-  AddressSanitizer (ASan) is a fast memory error detector. 
-  It finds use-after-free and {heap,stack,global}-buffer overflow bugs in C/C++ programs. 
+  AddressSanitizer (ASan) is a fast memory error detector.
+  It finds use-after-free and {heap,stack,global}-buffer overflow bugs in C/C++ programs.
 
 ● https://github.com/preservim/tagbar
   Vim plugin: easy way to browse the tags of the current file and get
@@ -1683,31 +1492,31 @@ http://www.rainydayz.org/beej/bgc/stringref.html
 ● gdb pretty printer [[{]]
  https://undo.io/resources/gdb-watchpoint/here-quick-way-pretty-print-structures-gdb/
 
-- Using pretty-printers can save lot of time staring at your computer screen and 
+- Using pretty-printers can save lot of time staring at your computer screen and
   improve the flow of your debugging too!
 
-In this tutorial, I start off with writing a basic pretty-printer to 
-display the value of the si_signo field in the siginfo_t structure, 
+In this tutorial, I start off with writing a basic pretty-printer to
+display the value of the si_signo field in the siginfo_t structure,
 before doing some more advanced stuff.
 
 
 Why we need pretty-printers
 
-We love debugging in GDB. We all use structures and classes in the 
-code we write, and GDB strives to display what these are but misses 
-the contextual information; when you use a handful of members, and in 
-particular unions, then interpreting these more complicated 
+We love debugging in GDB. We all use structures and classes in the
+code we write, and GDB strives to display what these are but misses
+the contextual information; when you use a handful of members, and in
+particular unions, then interpreting these more complicated
 structures quickly becomes overwhelming.
 
-When GDB prints a value, it first checks whether there is a 
-pretty-printer registered for that value. If there is, then GDB uses 
-the pretty-printer to display the value. Otherwise, the value prints 
-in the usual way. 
+When GDB prints a value, it first checks whether there is a
+pretty-printer registered for that value. If there is, then GDB uses
+the pretty-printer to display the value. Otherwise, the value prints
+in the usual way.
 
-For example, in my previous tutorial, I used the print info command 
-to confirm whether the inferior program received my Ctrl-C. But, 
-because I didn't have a pretty-printer for the siginfo_t structure, 
-the command returned all the data of the structure, including 
+For example, in my previous tutorial, I used the print info command
+to confirm whether the inferior program received my Ctrl-C. But,
+because I didn't have a pretty-printer for the siginfo_t structure,
+the command returned all the data of the structure, including
 expanding the many unions that structure uses.
 
 Output - Print Info
@@ -1715,8 +1524,8 @@ Output - Print Info
 Messy and not easy to read.
 See how easily you can write a basic pretty-printer
 
-To start off, we write a basic pretty-printer that returns the 
-si_signo value from the siginfo_t structure for an interrupt signal 
+To start off, we write a basic pretty-printer that returns the
+si_signo value from the siginfo_t structure for an interrupt signal
 that the inferior program receives.
 
 Almost every pretty-printer comprises of two main elements:
@@ -1724,7 +1533,7 @@ Almost every pretty-printer comprises of two main elements:
     The lookup function to identify the value type, and
     the printer function itself.
 
-We write our program in Python. 
+We write our program in Python.
 
 $ vim prettyprint.py
 
@@ -1753,15 +1562,15 @@ class SiginfoPrinter:
 def my_pp_func(val):
   if str(val.type) == 'siginfo_t': return SiginfoPrinter(val)
 
-# Finally, append the pretty-printer as object/ function to 
+# Finally, append the pretty-printer as object/ function to
 # the list of registered GDB printers.
 
 gdb.pretty_printers.append(my_pp_func)
 
-# Our pretty-printer is now available when we debug 
+# Our pretty-printer is now available when we debug
 # the inferior program in GDB.
 
-Now, run your inferior program and hit Ctrl-C to quit. Our 
+Now, run your inferior program and hit Ctrl-C to quit. Our
 pretty-printer returns the value 2; the value for a SIGINT.
 
 (gdb) source prettyprint.py
@@ -1773,9 +1582,9 @@ Much easier to read.
 
 I demonstrate this basic pretty-printer in my video. Do watch it here.
 
-Of course, we can and should improve our printer. In my next example, 
-I print the textual name of the si_signo member. I use a file called 
-signames,  which simply contains a list of the signal numbers with 
+Of course, we can and should improve our printer. In my next example,
+I print the textual name of the si_signo member. I use a file called
+signames,  which simply contains a list of the signal numbers with
 their corresponding textual signal names.
 
 class SiginfoPrinter:
@@ -1796,7 +1605,7 @@ def my_pp_func(val):
 
 gdb.pretty_printers.append(my_pp_func)
 
-When we run our inferior program again and hit Ctrl-C to quit, now 
+When we run our inferior program again and hit Ctrl-C to quit, now
 the printer returns the value 2, plus the textual name SIGINT.
 
 (gdb) source signames.py
@@ -1812,9 +1621,9 @@ Find and fix bugs in minutes  - including C/C++ concurrency issues
 Learn more »
 Are you ready to build out the pretty-printer some more?
 
-The possibilities are endless. You can extract and print any value of 
-a member in a structure with your pretty-printer program. In my next 
-example, I use the code field to identify the kill signal, but also 
+The possibilities are endless. You can extract and print any value of
+a member in a structure with your pretty-printer program. In my next
+example, I use the code field to identify the kill signal, but also
 return the sender of that kill command.
 
 class SiginfoPrinter:
@@ -1851,22 +1660,22 @@ db.pretty_printers.append(my_pp_func)
 
 Writing pretty-printers pays off
 
-That is it. We now have a pretty-printer for the siginfo_t structure. 
-But, of course, you can extrapolate this handy printer to display 
-whatever structure you want. 
+That is it. We now have a pretty-printer for the siginfo_t structure.
+But, of course, you can extrapolate this handy printer to display
+whatever structure you want.
 
-Investing a very small amount of time in creating your 
-pretty-printers upfront pays off quickly and almost certainly moves 
-up your debugging a couple of gears. You will find that you become 
+Investing a very small amount of time in creating your
+pretty-printers upfront pays off quickly and almost certainly moves
+up your debugging a couple of gears. You will find that you become
 more productive and write code you can be truly proud of.
 
-Consider making a gdbinit per project, and committing to your 
-project’s source control so that everyone working on that project 
+Consider making a gdbinit per project, and committing to your
+project’s source control so that everyone working on that project
 can benefit.
 
 Job done!
 
-In my video, I do explain and run all the code I have written in this 
+In my video, I do explain and run all the code I have written in this
 tutorial, so I do encourage you to watch it here.
 
 https://undo.io/resources/gdb-watchpoint/debugging-pretty-printers-gdb-part2/
@@ -1876,18 +1685,18 @@ gdbWatchPoint
 Debugging with pretty printers in GDB - part 2
 Last updated 24th Jun 2021
 
-In this tutorial, Software Architect Mark Williamson follows on from 
-Greg's tutorial on Debugging with pretty-printers in GDB by 
-illustrating how to write pretty printers for more complex data 
+In this tutorial, Software Architect Mark Williamson follows on from
+Greg's tutorial on Debugging with pretty-printers in GDB by
+illustrating how to write pretty printers for more complex data
 structures.
 Getting to the point_t
 
-Our examples in this tutorial will revolve around data structures 
-from an imaginary vector graphics program.  As we work up to more 
-complex geometry types we will extend to our pretty printers to help 
+Our examples in this tutorial will revolve around data structures
+from an imaginary vector graphics program.  As we work up to more
+complex geometry types we will extend to our pretty printers to help
 us understand the structures involved.
 
-We’ll start with a very fundamental structure, representing a 
+We’ll start with a very fundamental structure, representing a
 single point:
 
 typedef struct {
@@ -1895,7 +1704,7 @@ typedef struct {
     int y;
 } point_t;
 
-Lets suppose our program has defined an instance of this type, 
+Lets suppose our program has defined an instance of this type,
 representing a point in 2D space:
 
 point_t p = {
@@ -1903,7 +1712,7 @@ point_t p = {
     .y = 2,
 };
 
-Printing this immediately in GDB gives us a fairly familiar, though 
+Printing this immediately in GDB gives us a fairly familiar, though
 not particularly compact, representation:
 
 (gdb) print p
@@ -1912,8 +1721,8 @@ $9 = {
  y = 2
 }
 
-In our previous examples, we already learnt how to write a basic 
-pretty printer. A similar pretty-printer script for our point_t might 
+In our previous examples, we already learnt how to write a basic
+pretty printer. A similar pretty-printer script for our point_t might
 look like this:
 
 import gdb
@@ -1933,7 +1742,7 @@ def my_pp_func(val):
 
 gdb.pretty_printers.append(my_pp_func)
 
-This gives us a more compact output format that’s more suitable for 
+This gives us a more compact output format that’s more suitable for
 the coordinate data we’re representing:
 
 (gdb) print p
@@ -1941,8 +1750,8 @@ $8 = (1, 2)
 
 Line up for nested structures!
 
-Our point_t structure is very likely to be used as an element of 
-other data structures. For instance, in a drawing program, we might 
+Our point_t structure is very likely to be used as an element of
+other data structures. For instance, in a drawing program, we might
 have a line_t that contains two points:
 
 typedef struct {
@@ -1950,8 +1759,8 @@ typedef struct {
     point_t end;
 } line_t;
 
-Let’s assume we’d like to pretty print this too. We could just 
-copy-and-paste the code from the previous pretty-printer with some 
+Let’s assume we’d like to pretty print this too. We could just
+copy-and-paste the code from the previous pretty-printer with some
 edits:
 
 ...
@@ -1964,9 +1773,9 @@ edits:
         )
 ...
 
-But this is already getting a bit repetitive. Fortunately, GDB 
-already has this covered for us: when formatting strings for 
-printing, it will recursively call existing pretty printers. So, 
+But this is already getting a bit repetitive. Fortunately, GDB
+already has this covered for us: when formatting strings for
+printing, it will recursively call existing pretty printers. So,
 actually, we can write:
 
 class PointPrinter:
@@ -1992,9 +1801,9 @@ Which produces the output:
 (gdb) print l
 $7 = <(3, 4), (5, 6)>
 
-Deferring formatting decisions to existing pretty printers also means 
-that formatting changes can be made in one place and reflected 
-everywhere. For instance, if we now change our original PointPrinter 
+Deferring formatting decisions to existing pretty printers also means
+that formatting changes can be made in one place and reflected
+everywhere. For instance, if we now change our original PointPrinter
 to say:
 
 ...
@@ -2007,17 +1816,17 @@ to say:
 
 Then we’ll see also this reflected when we print a line_t:
 
-(gdb) print l 
+(gdb) print l
 $8 = <Point(3, 4), Point(5, 6)>
 
 More complex data structures - let GDB do the walk
 
-We can also use pretty printers to handle more complicated data 
-structures, for instance ones that use pointers to chain together 
+We can also use pretty printers to handle more complicated data
+structures, for instance ones that use pointers to chain together
 multiple constituent structs.
 
-Our vector drawing program will need a data structure to record all 
-of the objects in the system. This structure allows us to track all 
+Our vector drawing program will need a data structure to record all
+of the objects in the system. This structure allows us to track all
 the allocated points and lines:
 
 struct drawing_element;
@@ -2033,7 +1842,7 @@ typedef struct drawing_element {
     struct drawing_element *next; /* NULL-terminated */
 } drawing_element_t;
 
-Note that this can be an arbitrarily large data structure. For our 
+Note that this can be an arbitrarily large data structure. For our
 example here, let's just chain together a couple of elements:
 
 drawing_element_t last = {
@@ -2052,7 +1861,7 @@ drawing_element_t head = {
      .next = &last,
 };
 
-Printing it won’t provide very helpful output by default, even with 
+Printing it won’t provide very helpful output by default, even with
 our existing pretty printers:
 
 (gdb) print head
@@ -2066,15 +1875,15 @@ $1 = {
  next = 0x7fffffffd960
 }
 
-We can see the enum value of kind - which is helpful. Other than 
-that, we just have a pair of pointers to the el member and a next 
-pointer. We could walk along these pointers manually but it would be 
+We can see the enum value of kind - which is helpful. Other than
+that, we just have a pair of pointers to the el member and a next
+pointer. We could walk along these pointers manually but it would be
 much nicer if GDB could do that work for us.
 
-If we write a pretty printer for the drawing_element_t then we can 
-build a more complex string renderer that will walk the data 
-structure and give us a summary. To do this, we’ll define a 
-children() method, which tells GDB that the type it’s pretty 
+If we write a pretty printer for the drawing_element_t then we can
+build a more complex string renderer that will walk the data
+structure and give us a summary. To do this, we’ll define a
+children() method, which tells GDB that the type it’s pretty
 printing somehow contains other values of interest:
 
 class DrawingElementPrinter:
@@ -2099,7 +1908,7 @@ class DrawingElementPrinter:
             # Prepare for next loop.
             curr = curr['next'].dereference() if curr['next'] != 0 else None
 
-            # Yield the child element - a string name and the value 
+            # Yield the child element - a string name and the value
             # we want to show.
             yield 'el', el_ptr.dereference()
 
@@ -2121,29 +1930,29 @@ This pretty printer will:
     Display the location of our data structure
     Walk the linked list to retrieve all the elements
     For each element, use the kind field to determine its type
-    Delegate display of that element to the existing pretty printer 
+    Delegate display of that element to the existing pretty printer
     (by dereferencing the appropriate pointer)
 
-By combining these elements, we have built a pretty printer for the 
-whole chained data structure rather than for a single value. When we 
-try our print command again, we’ll see something much more 
+By combining these elements, we have built a pretty printer for the
+whole chained data structure rather than for a single value. When we
+try our print command again, we’ll see something much more
 interesting:
 
-(gdb) p head 
+(gdb) p head
 $2 = drawing_element_t @ 0x7fffffffd820 = {<Point(3, 4), Point(5, 6)>, Point(1, 2)}
 
-Since we selected the “array” display hint, this will 
-automatically reflect preferences for printing arrays (as set by set 
+Since we selected the “array” display hint, this will
+automatically reflect preferences for printing arrays (as set by set
 print array).
 
-The printer we’ve built will automatically walk a list of arbitrary 
-length; with the full power of Python available, combined with 
-GDB’s access to data values and types, it is possible to decode 
+The printer we’ve built will automatically walk a list of arbitrary
+length; with the full power of Python available, combined with
+GDB’s access to data values and types, it is possible to decode
 arbitrarily complex data structures.
 
-That’s it for this tutorial - we’ve seen how GDB can 
-automatically invoke the right pretty printer to display your data 
-and handle more advanced data structures. Use these techniques and 
+That’s it for this tutorial - we’ve seen how GDB can
+automatically invoke the right pretty printer to display your data
+and handle more advanced data structures. Use these techniques and
 you’ll get a better debug experience for less effort spent.
 
 The full source of the examples shown above can be downloaded for reference:
@@ -2156,14 +1965,14 @@ The full source of the examples shown above can be downloaded for reference:
 https://opensource.com/article/21/7/programming-read-write
 [[}]]
 
-● Memory error checking in C and C++: Comparing Sanitizers and Valgrind 
+● Memory error checking in C and C++: Comparing Sanitizers and Valgrind
 https://developers.redhat.com/blog/2021/05/05/memory-error-checking-in-c-and-c-comparing-sanitizers-and-valgrind
 
-● Instant replay: Debugging C and C++ programs with rr 
+● Instant replay: Debugging C and C++ programs with rr
 https://developers.redhat.com/blog/2021/05/03/instant-replay-debugging-c-and-c-programs-with-rr
 
 ● C/C++ tutorial, 101: Memory Layout of C Programs
-https://www.geeksforgeeks.org/memory-layout-of-c-program/ 
+https://www.geeksforgeeks.org/memory-layout-of-c-program/
 
 ● https://developers.redhat.com/articles/2021/10/29/beginners-attempt-optimizing-gcc?sc_cid=7013a000002pxeoAAA#finding_a_suitable_gcc_bug
 
@@ -2175,77 +1984,77 @@ https://www.geeksforgeeks.org/memory-layout-of-c-program/
 ● libffi: High Leve Language Interface [[{]]
   https://sourceware.org/libffi/
 
-Compilers for high level languages generate code that follows certain 
-conventions. These conventions are necessary, in part, for separate 
-compilation to work. One such convention is the "calling convention". 
-The "calling convention" is a set of assumptions made by the compiler 
-about where function arguments will be found on entry to a function. 
-A "calling convention" also specifies where the return value for a 
+Compilers for high level languages generate code that follows certain
+conventions. These conventions are necessary, in part, for separate
+compilation to work. One such convention is the "calling convention".
+The "calling convention" is a set of assumptions made by the compiler
+about where function arguments will be found on entry to a function.
+A "calling convention" also specifies where the return value for a
 function is found.
-Some programs may not know at the time of compilation what arguments 
-are to be passed to a function. For instance, an interpreter may be 
-told at run-time about the number and types of arguments used to call 
-a given function. Libffi can be used in such programs to provide a 
+Some programs may not know at the time of compilation what arguments
+are to be passed to a function. For instance, an interpreter may be
+told at run-time about the number and types of arguments used to call
+a given function. Libffi can be used in such programs to provide a
 bridge from the interpreter program to compiled code.
 
-The libffi library provides a portable, high level programming 
-interface to various calling conventions. This allows a programmer to 
-call any function specified by a call interface description at 
+The libffi library provides a portable, high level programming
+interface to various calling conventions. This allows a programmer to
+call any function specified by a call interface description at
 run-time.
 
-FFI stands for Foreign Function Interface. A foreign function 
-interface is the popular name for the interface that allows code 
-written in one language to call code written in another language. The 
-libffi library really only provides the lowest, machine dependent 
-layer of a fully featured foreign function interface. A layer must 
-exist above libffi that handles type conversions for values passed 
+FFI stands for Foreign Function Interface. A foreign function
+interface is the popular name for the interface that allows code
+written in one language to call code written in another language. The
+libffi library really only provides the lowest, machine dependent
+layer of a fully featured foreign function interface. A layer must
+exist above libffi that handles type conversions for values passed
 between the two languages.
 
-The libffi library is useful to anyone trying to build a bridge 
-between interpreted and natively compiled code. Some notable users 
+The libffi library is useful to anyone trying to build a bridge
+between interpreted and natively compiled code. Some notable users
 include:
-- CPython - the default, most-widely used implementation of the 
-Python programming language uses libffi in the standard ctypes 
+- CPython - the default, most-widely used implementation of the
+Python programming language uses libffi in the standard ctypes
 library.
-- OpenJDK - the open-source implementation of the Java Platform 
-Standard Edition uses libffi to bridge between the interpreter and 
+- OpenJDK - the open-source implementation of the Java Platform
+Standard Edition uses libffi to bridge between the interpreter and
 native code for some platforms.
-- js-ctypes - a foreign function interface for javascript that 
+- js-ctypes - a foreign function interface for javascript that
 Mozilla will be shipping in Firefox 3.6.
-- Dalvik - Dalvik is the virtual machine which runs the Java platform 
-on Android mobile devices. libffi is used on Android ports for which 
+- Dalvik - Dalvik is the virtual machine which runs the Java platform
+on Android mobile devices. libffi is used on Android ports for which
 no custom bridging code has been written.
-- Java Native Access (JNA) - the JNI-free way to call native code 
+- Java Native Access (JNA) - the JNI-free way to call native code
 from Java.
 - Ruby-FFI - a Foreign Function Interface extension for Ruby.
-- fsbv - Foreign Structure By Value is a foreign function interface 
-library for Common Lisp that extends the standard CFFI package to 
+- fsbv - Foreign Structure By Value is a foreign function interface
+library for Common Lisp that extends the standard CFFI package to
 include support for passing structure arguments by value.
-- JSCocoa - call Objective-C code from javascript on Mac OSX and the 
+- JSCocoa - call Objective-C code from javascript on Mac OSX and the
 iPhone (via the libffi-iphone port).
 - PyObjC - call Objective-C code from Python on Mac OSX.
 - RubyCocoa - call Objective-C code from Ruby on Mac OSX.
-- The Glasgow Haskell Compiler - call C code from this popular 
+- The Glasgow Haskell Compiler - call C code from this popular
 Haskell implementation.
 - Racket - call C code from this popular Scheme implementation.
-- gcj - the runtime library for the GNU Compiler for the Java 
-Programming Language uses libffi to handle calls back and forth 
-between interpreted and natively compiled code. gcj is part of the 
+- gcj - the runtime library for the GNU Compiler for the Java
+Programming Language uses libffi to handle calls back and forth
+between interpreted and natively compiled code. gcj is part of the
 GCC, the GNU Compiler Collection.
 [[}]]
 
-● debugging: Blinkenlights 
-https://justine.lol/blinkenlights/ 
+● debugging: Blinkenlights
+https://justine.lol/blinkenlights/
 
 ● C/C++ Intel® oneAPI DPC++ Library - APIs for Heterogeneous Computing
 https://www.intel.com/content/www/us/en/developer/tools/oneapi/dpc-library.html
 
-● Dropbox Makes the Android App Faster and More Reliable: 
+● Dropbox Makes the Android App Faster and More Reliable:
   Swaps C++ Code for a Native Approach
   https://www.infoq.com/news/2022/03/dropbox-android-kotlin/
 
 ● C/C++: Cosmopolitan Libc: build-once run-anywhere C library
-  https://justine.lol/cosmopolitan/ 
+  https://justine.lol/cosmopolitan/
 
 ● C/C++: Time Travel Debug for VS Code
   https://undo.io/resources/time-travel-debug-vscode-extension
@@ -2255,15 +2064,171 @@ https://developers.redhat.com/articles/2022/04/25/new-c-features-gcc-12?sc_cid=7
 
 ● gcc:
   - Use   -verbose:gc  to get the garbage collection output.
-  - If app OutOfMemoryError-crashes, extra info about memory leak 
-    can be obtained through –XX:HeapDumpOnOutOfMemory , creating a 
+  - If app OutOfMemoryError-crashes, extra info about memory leak
+    can be obtained through –XX:HeapDumpOnOutOfMemory , creating a
     heap dump file
 
 ● https://gceasy.io/
-   Industry's first machine learning guided Garbage collection log 
-  analysis tool.  GCeasy has in-built intelligence to auto-detect 
+   Industry's first machine learning guided Garbage collection log
+  analysis tool.  GCeasy has in-built intelligence to auto-detect
   problems in the JVM & Android GC logs and recommend solutions to it.
 
 ● UDB Time Travel Debugger:
-  Find and fix test failures in minutes  - including C/C++ race 
+  Find and fix test failures in minutes  - including C/C++ race
   conditions, deadlocks and memory corruptions
+
+[[{01_PM.TODO]]
+● cmake  #[cmake_summary] [[{cmake]]
+@[https://github.com/tldr-pages/tldr/blob/master/pages/common/cmake.md]
+@[https://cmake.org/cmake/help/latest/manual/cmake.1.html]
+
+- Cross-platform build automation system generating recipes
+  for native build systems.
+
+  $ cmake $path_to_cmakelist           ← Create build recipe in "./" dir with
+                                         CMakeLists.txt from $path_to_cmakelist
+
+  $ cmake $project_dir \               ← Create build recipe
+$   -D ${CMAKE_BUILD_TYPE=Release}      ← build type set to Release with CMake variable
+
+  $ cmake --build $build_dir           ← Use generated recipe in $build_dir to build artifacts
+                                         Use flag $ --target ${target_name}  for custom build target
+  $ cmake --install $build_dir \       ← Install
+$   --prefix ${path/to/directory}       ← use custom prefix for install paths (default to /usr/local/)
+$  --strip                               ← strip debugging symbols
+
+------------------------------------
+• CMake test:
+@[https://github.com/tldr-pages/tldr/blob/master/pages/common/ctest.md]
+@[https://gitlab.kitware.com/cmake/community/wikis/doc/ctest/Testing-With-CTest]
+
+  $ ctest --output-on-failure \   ← Run 1+/all tests defined in CMake project
+$         -j${4}             \     ← Exec up to 4 jobs in parallel
+$         -R '^${test_name}$'      ← Run just test whose name matches regex
+[[}]]
+
+
+● Tiny C Compiler - By Fabric Bellard [[{]]
+@[https://github.com/yuchao86/tcc]
+Tiny C Compiler - C Scripting Everywhere - The Smallest ANSI C compiler
+Features:
+    SMALL! You can compile and execute C code everywhere, for example
+on rescue disks.
+
+    FAST! tcc generates optimized x86 code. No byte code overhead.
+Compile, assemble and link about 7 times faster than 'gcc -O0'.
+
+    UNLIMITED! Any C dynamic library can be used directly. TCC is
+heading torward full ISOC99 compliance. TCC can of course compile
+itself.
+
+    SAFE! tcc includes an optional memory and bound checker. Bound
+checked code can be mixed freely with standard code.
+
+    Compile and execute C source directly. No linking or assembly
+necessary. Full C preprocessor included.
+
+    C script supported : just add '#!/usr/local/bin/tcc -run' at the
+first line of your C source, and execute it directly from the command
+line.
+[[}]]
+
+● HPX: distributed C++ lib [[{architecture.distributed]]
+  - distributed C++ library for concurrency and parallelism.
+  - implements APIs defined in the C++ Standard Library and extends them
+    to work in a distributed memory space exposing a unified programing
+    model which transparently utilizes available resources.
+  - Closely aligned with C++ Standard standardization process.
+[[}]]
+
+● Compile 3x faster [[{gcc.TODO]]
+https://developers.redhat.com/blog/2019/05/15/2-tips-to-make-your-c-projects-compile-3-times-faster/
+[[}]]
+
+● Control Make verbosity [[{make,TODO]]
+@[https://stackoverflow.com/questions/8438661/control-the-output-of-a-make-command-to-be-less-verbose-dont-echo-each-command/22786988#22786988]
+[[}]]
+
+● udis86: Minimalistic Disassembler  [[{]]
+@[http://udis86.sourceforge.net/]
+- easy-to-use, minimalistic disassembler library (libudis86)
+  for the x86 class of instruction set architectures.
+- It has a convenient interface for use in the analysis and
+  instrumentation of binary code. Udis86 is distributed under
+  the terms of the 2-clause BSD License.
+$ echo "65 67 89 87 76 65 54 56 78 89 09 00 87" | udcli -32 -x
+0000000000000000 656789877665    mov [gs:bx+0x6576], eax
+0000000000000000 54              push esp
+0000000000000000 56              push esi
+0000000000000000 7889            js 0x93
+0000000000000000 0900            or [eax], eax
+[[}]]
+
+● g-speak: [[{01_PM.TODO]]
+@[https://www.oblong.com/g-speak]
+g-speak™ is a C/C++ SDK which enables the development of
+multi-user, multi-screen, multi-device, spatial, distributed
+applications.
+[[}]]
+
+● ASTRÉE: Static Analyzer  [[{qa.code.analyzer]]
+David Monniaux (CNRS), member of the ASTRÉE project, says: “ASTRÉE is a
+static analyzer based on abstract interpretation that aims at proving the
+absence of runtime errors in safety-critical software written in a subset of
+the C programming language.”
+
+“Automatically analyzing programs for exactly checking properties such as the
+absence of runtime errors is impossible in general, for mathematical reasons.
+Static analysis by abstract interpretation works around this impossibility
+and proves program properties by over-approximating the possible behaviors of
+the program: it is possible to design pessimistic approximations that, in
+practice, allow proving the desired property on a wide range of software
+.”
+
+“So far, ASTRÉE has proved the absence of runtime errors in the primary
+control software of the Airbus A340 family. This would be impossible by
+software testing, for testing only considers a limited subset of the test
+cases, while abstract interpretation considers a superset of all possible
+outcomes of the system.”
+
+“ASTRÉE is written in OCaml and is about 44000 lines long (plus external
+libraries). We needed a language with good performance (speed and memory usage
+) on reasonable equipment, easy support for advanced data structures, and
+type and memory safety. OCaml also allows for modular, clear and compact
+source code and makes it easy to work with recursive structures such as
+syntax trees.”
+[[}]]
+
+● How GNU C lib handles backward compatibility: [[{01_PM.TODO]]
+@[https://developers.redhat.com/blog/2019/08/01/how-the-gnu-c-library-handles-backward-compatibility/]
+[[}]]
+
+● Live Recorder 5  [[{01_PM.TODO]]
+@[https://www.infoq.com/news/2019/12/undo-live-recorder/]
+- Earlier in the year the Undo team released Live Recorder 5, the
+  latest version of their “software flight recorder technology” for
+  C/C++, Rust, and Go applications that enables the capture of all
+  nondeterministic data within an application’s execution for
+  debugging purposes. The captured recording allows the recreation of
+  an application’s entire memory and the register state, which
+  supports the replay of execution steps, backwards and forwards, via
+  the UndoDB debugger. At the recent QCon San Francisco conference,
+  InfoQ sat down with Dr Greg Law, co-founder and CTO at Undo, in order
+  to learn more.
+[[}]]
+
+● GCC code instrumentation:  [[{gcc.101,qa]]
+  https://gcc.gnu.org/onlinedocs/gcc/Instrumentation-Options.html
+  -fsanitize=address
+    Memory access instructions are instrumented to detect out-of-bounds and use-after-free bugs.
+    See https://github.com/google/sanitizers/wiki/AddressSanitizer for more details.
+    It cannot be combined with -fsanitize=thread or -fsanitize=hwaddress.
+
+  Extracted from https://tip.golang.org/doc/go1.18
+  go build command and related commands now support an -asan flag that
+  enables interoperation with C (or C++) code compiled with the
+  address sanitizer (C compiler option -fsanitize=address).
+[[}]]
+
+[[TODO}]]
+
