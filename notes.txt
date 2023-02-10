@@ -2230,5 +2230,11 @@ syntax trees.”
   address sanitizer (C compiler option -fsanitize=address).
 [[}]]
 
+● Online Compiler explorer: [[{]]
+  Write C code and dump in real-time assembly compiled
+  output:
+  https://godbolt.org/
+[[}]]
+
 [[TODO}]]
 
