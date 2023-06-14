@@ -1,4 +1,4 @@
-●  Apropos:
+##  Apropos:
 - Visit next Web site for a great experience:
   https://earizon.github.io/txt_world_domination/viewer.html?payload=../CLang/notes.txt
 
@@ -10,32 +10,8 @@
 
 Misserable collection of unordered C/C++ notes:
 
-• GCC summary: [[{gcc.101,01_PM.TODO]] #[gcc_summary]
-See gcc related tldr:
-@[https://github.com/tldr-pages/tldr/tree/master/pages/common]
-@[https://github.com/tldr-pages/tldr/blob/master/pages/common/clang.md]
-@[https://clang.llvm.org/docs/ClangCommandLineReference.html]
-
-
-  $ gcc ${source1.c} ${source2.c} \   ← Compile N source files,
-      -o ${executable}                   ← to exec
-      -Wall                              ← Allow warnings
-      -Og                                ← debug symbols to STDOUT
-      -I${header_path}                   ← add headers paths
-      -L${library_path}                  ← add library paths
-      -l${library_name}                  ← add library
-   NOTE: Use c99 (vs gcc) + default options to switch to ISO C standard.
-   NOTE: Most commands are similar in gcc and clang LLVM compiler.
-
-  $ gcc -S ${source.c}                   ← Compile src to Assembler
-
-  $ gcc -c ${source.c}                   ← Compile src, do NOT link
-
-  $ clang -S -emit-llvm ${file.c} \      ← Compile src to LLVM Intermediate Rep.
-$     -o ${file.ll}
-[[}]]
-
-● Cscope  [[{]]
+# TODO/Unordered
+## Cscope  [[{]]
   - interactively examine a C "source" program files:
     - C    .c/.h
     - lex  .l
@@ -134,7 +110,7 @@ cscope $OPTIONS file1 file2 ...
   ^d  Exit cscope.
 [[}]]
 
-● Seastar: async lib replacing threads [[{async/reactive,performance,scalability,qa.UX,01_PM.TODO]]
+## Seastar: async lib replacing threads [[{async/reactive,performance,scalability,qa.UX,01_PM.TODO]]
 @[http://seastar.io]
 @[https://github.com/scylladb/seastar]
 - shared memory, mapped files, and other classic Linux programming.
@@ -155,30 +131,13 @@ cscope $OPTIONS file1 file2 ...
 - Message passing: Share info. between CPU cores without time-consuming locking [[{thread.lock}]]
 [[}]]
 
-● JAM build tool  [[{qa.UX,01_PM.low_code,01_PM.TODO]]
-@[http://www.perforce.com/jam/jam.html]
-makes building simple things simple and building complicated things manageable.
 
-Jam understands C/C++ dependencies, there is no need to declare header or object files.
 
-Jamfile                             Makefile
-Main proga : data.c main.c io.c ;   proga: data.o main.o io.o
-                                      cc data.o main.o io.o -o proga
-                                    data.o: data.c data.h
-                                      cc -c data.c
-
-                                    main.o: data.h io.h main.c
-                                      cc -c main.c
-
-                                    io.o: io.h io.c
-                                      cc -c io.c
-[[}]]
-
-● Efficient string copying & concatenation: [[{101.strings]]
+## Efficient string copying & concatenation: [[{101.strings]]
 @[https://developers.redhat.com/blog/2019/08/12/efficient-string-copying-and-concatenation-in-c/]
 [[}]]
 
-● ZZ transpiler (to ANSI-C) [[{qa.formal_proofs.zz,]]
+## ZZ transpiler (to ANSI-C) [[{qa.formal_proofs.zz,]]
 @[https://www.infoq.com/news/2020/02/zz-formal-verified-c-dialect/]
 
 
@@ -194,12 +153,9 @@ machine.
   yices2 or z3.
 [[}]]
 
-● What's new: [[{01_PM.NEW]]
+## What's new: [[{01_PM.NEW]]
   C++20 Is Now Final, C++23 At Starting Blocks
 @[https://www.infoq.com/news/2020/09/cpp-20-final/]
-
-  GCC 10 C++ features
-@[https://developers.redhat.com/blog/2020/09/24/new-c-features-in-gcc-10/]
 
 - ISO C: July 2019
 @[https://developers.redhat.com/blog/2019/09/03/report-from-july-2019-iso-c-meeting-core-language/]
@@ -215,7 +171,7 @@ machine.
   https://developers.redhat.com/blog/2015/02/05/gcc5-and-the-c11-abi/
 [[}]]
 
-● Simplified Wrapper and interface Generator [[{]]
+## Simplified Wrapper and interface Generator [[{]]
   http://www.swig.org/
 (used by NumPy for example: https://docs.scipy.org/doc/numpy/reference/swig.interface-file.html)
  - SDK connecting  C and C++ with a variety of high-level languages.
@@ -237,121 +193,48 @@ projects.
 [[}]]
 
 
-● Google Propeller: [[{01_PM.TODO]]
+## Google Propeller: [[{01_PM.TODO]]
 @[https://www.infoq.com/news/2020/03/google-propeller-llvm-optmizer/]
 [[}]]
 
-● Subset C Compiler [[{01_PM.TODO]]
+## Subset C Compiler [[{01_PM.TODO]]
 https://github.com/sudheesh001/SubsetC
 Subset C Compiler built to handle basic compiler functionality with a
 language thats similar to C. It generates intermediate code and
 possible code generation.
 [[}]]
 
-● Static analysis in GCC 10: [[{qa.code]]
-https://developers.redhat.com/blog/2020/03/26/static-analysis-in-gcc-10/
-
-By David Malcolm March 26, 2020
-
-I work at Red Hat on GCC, the GNU Compiler Collection. For the next
-major release of GCC, GCC 10, I’ve been implementing a new
--fanalyzer option: A static analysis pass to identify various
-problems at compile-time, rather than at runtime.
-
-My thinking here is that it’s best to catch problems as early as
-possible as the code is written, using the compiler the code is
-written in as part of the compile-edit-debug cycle, rather than
-having static analysis as an extra tool “on the side” (perhaps
-proprietary). Hence, it seems worthwhile to have a static analyzer
-built into the compiler that can see exactly the same code as the
-compiler sees—because it is the compiler.
-
-This issue is, of course, a huge problem to tackle. For this release,
-I’ve focused on the kinds of problems seen in C code—and, in
-particular double-free bugs—but with a view toward creating a
-framework that we can expand on in subsequent releases (when we can
-add more checks and support languages other than C).
-
-My hope is that the analyzer provides a decent amount of extra
-checking while not being too expensive. I’ve aimed for -fanalyzer
-to “merely” double the compile time as a reasonable trade-off for
-the extra checks. I haven’t succeeded yet, as you’ll see below,
-but I’m working on it.
-
-https://developers.redhat.com/blog/2021/01/28/static-analysis-updates-in-gcc-11?sc_cid=7013a0000026SuaAAE#
-GCC 10 implementation of -fanalyzer added 15 warnings:
-    Warnings relating to memory management:
-        -Wanalyzer-double-free
-        -Wanalyzer-use-after-free
-        -Wanalyzer-free-of-non-heap
-        -Wanalyzer-malloc-leak
-    Warnings relating to missing error-checking or misusing NULL pointers:
-        -Wanalyzer-possible-null-argument
-        -Wanalyzer-possible-null-dereference
-        -Wanalyzer-null-argument
-        -Wanalyzer-null-dereference
-    Warnings relating to stdio streams:
-        -Wanalyzer-double-fclose
-        -Wanalyzer-file-leak
-    Warnings relating to use-after-return from stack frames:
-        -Wanalyzer-stale-setjmp-buffer
-        -Wanalyzer-use-of-pointer-in-stale-stack-frame
-    Unsafe call warning:
-        -Wanalyzer-unsafe-call-within-signal-handler
-    Proof-of-concept warnings:
-        -Wanalyzer-tainted-array-index
-        -Wanalyzer-exposure-through-output-file
-
-For GCC 11, I've added four new warnings:
-
-    -Wanalyzer-write-to-const
-    -Wanalyzer-write-to-string-literal
-    -Wanalyzer-shift-count-negative
-    -Wanalyzer-shift-count-overflow
-
-I am still developing -fanalyzer only for C in GCC 11. I added
-partial support for C++'s new and deleteBut there are enough missing
-features that it's not yet worth using on real C++ code. I plan to
-make the analyzer robust and scalable for C code in GCC 11 and defer
-C++ support to GCC 12.
-
-GCC 11 will be in Fedora 34, which should also be out in the spring
-of 2021. For simple code examples, you can play around with the new
-GCC online at godbolt.org. Select your GCC "trunk" and add -fanalyzer
-to the compiler options. Have fun!
-[[}]]
-
-● Google TCMalloc: [[{01_PM.TODO]]
+## Google TCMalloc: [[{01_PM.TODO]]
 TCMalloc, Google's Customized Memory Allocator for C and C++, Now Open Source
 https://www.infoq.com/news/2020/02/google-tc-malloc-open-source/
 [[}]]
 
 
-● C/C++ aliasing joys/perils: [[{01_PM.TODO]]
+## C/C++ aliasing joys/perils: [[{01_PM.TODO]]
 101 https://developers.redhat.com/blog/2020/06/02/the-joys-and-perils-of-c-and-c-aliasing-part-1/
 The joys and perils of C and C++ aliasing, Part 1
 [[}]]
 
 
-● Radare Reverse-Engineering [[{cli,reverse-engineering,forensics,security,binary-analysis,malware-analysis,disassembler,01_PM.TODO]]
+## Radare Reverse-Engineering [[{cli,reverse-engineering,forensics,security,binary-analysis,malware-analysis,disassembler,01_PM.TODO]]
 @[www.radare.org/]
 @[https://github.com/radareorg/radare2]
 UNIX-like reverse engineering framework and command-line toolset
 [[}]]
 
 
-● Conan Package Manager: [[{qa.UX,01_PM.TODO]]
+## Conan Package Manager: [[{qa.UX,01_PM.TODO]]
 https://conan.io/
 Conan, the C/C++ Package Manager
 The open source, decentralized and multi-platform packagemanager to
 create and share all your native binaries.
 [[}]]
 
-● CXX Safe Interoperability Rust:[[{rust,interoperability,01_PM.TODO]]
+## CXX Safe Interoperability Rust:[[{rust,interoperability,01_PM.TODO]]
 https://www.infoq.com/news/2020/12/cpp-rust-interop-cxx/
 [[}]]
 
-● CoreDumper:[[{troubleshooting.debugger,01_PM.TODO]]
+## CoreDumper:[[{troubleshooting.debugger,01_PM.TODO]]
 @[https://github.com/AmadeusITGroup/CoreDumper]
 Clone of https://code.google.com/p/google-coredumper/ with enhancements by Amadeus
 
@@ -366,28 +249,23 @@ services by attaching a debugger, nor is it possible to crash the
 service in order to generate a core file.
 [[}]]
 
-● Cheerp WebAssembly Compiler: [[{webassembly,01_PM.TODO]]
+## Cheerp WebAssembly Compiler: [[{webassembly,01_PM.TODO]]
 @[https://www.leaningtech.com/pages/cheerp.html]
 [[}]]
 
-● Debugger, C, WAsm [[{]]
+## Debugger, C, WAsm [[{]]
 https://www.infoq.com/news/2021/01/chrome-extension-debug-wasm-c/
 [[}]]
 
-● Tips for writing portable assembler with GNU Assembler (GAS) [[{]]
+## Tips for writing portable assembler with GNU Assembler (GAS) [[{]]
 https://developers.redhat.com/blog/2021/02/26/tips-for-writing-portable-assembler-with-gnu-assembler-gas/
 [[}]]
 
-● interactive C++ for data science: [[{]]
+## interactive C++ for data science [[{]]
 https://blog.llvm.org/posts/2020-12-21-interactive-cpp-for-data-science/
 [[}]]
 
-● https://makefiletutorial.com/  [[{101.make]]
-  https://github.com/theicfire/makefiletutorial
-[[}]]
-
-
-● Performance boost tips in 'ag' search [[{performance,strings,regex,01_PM.TODO]]
+## Performance boost tips in 'ag' search [[{performance,strings,regex,01_PM.TODO]]
 https://github.com/ggreer/the_silver_searcher
 How is it so fast?
 - Ag uses Pthreads to take advantage of multiple CPU cores and search files in parallel.
@@ -399,7 +277,7 @@ How is it so fast?
   non-regex patterns are loaded into arrays and binary searched.
 [[}]]
 
-● astyle [[{qa]]
+## astyle [[{qa]]
 https://github.com/tldr-pages/tldr/blob/master/pages/common/astyle.mode
 
 Source code indenter, formatter, and beautifier for the C, C++, C#
@@ -408,7 +286,7 @@ file is created with an ".orig" appended to the original file name.
 More information: http://astyle.sourceforge.net/.
 [[}]]
 
-● cppcheck  [[{]]
+## cppcheck  [[{]]
 @[https://github.com/tldr-pages/tldr/blob/master/pages/common/cppcheck.md] @ma
 Static analysis tool for C/C++ code.
 it focuses on the types of bugs that compilers normally do not detect
@@ -454,28 +332,25 @@ https://github.com/tldr-pages/tldr/blob/master/pages/common/ctags.md @ma
 ####################
 https://github.com/tldr-pages/tldr/blob/master/pages/common/doxygen.md  101
 ####################
-See make examples:
-https://github.com/tldr-pages/tldr/blob/master/pages/common/entr.md
-####################
 https://github.com/tldr-pages/tldr/blob/master/pages/common/gdb.md @ma  101
 https://interrupt.memfault.com/blog/advanced-gdb#gdb-visual-interfaces
 
 Set breakpoint: (http://www.delorie.com/gnu/docs/gdb/gdb_29.html)
- $ break ""function_name""   ˂- break at function
- $ break filename:linenum  ˂- break at filename:line
+ $ break ""function_name""   <- break at function
+ $ break filename:linenum  <- break at filename:line
 Remove breakpoint:
  $ clear ""function""|""line number""|...
 List breakpoints:
  $ info breakpoints
 Save breakpoints:
- $ save breakpoints ˂filename˃
+ $ save breakpoints <filename>
 Restore breakpoints:
-1.- Add first the line ""set breakpoint pending on to ˂filename˃"".
-2.- $ source ˂filename˃
+1.- Add first the line ""set breakpoint pending on to <filename>"".
+2.- $ source <filename>
 ""Moving"":
- n -˃ Next (do not enter function)
- s -˃ Step (enter function)
- finish -˃ Step ""out"" of the function
+ n -> Next (do not enter function)
+ s -> Step (enter function)
+ finish -> Step ""out"" of the function
 ---------------------
 "ref: http://stackoverflow.com/questions/1354637/watchpoint-in-gdb
 ""command"" can be used to set a list of GDB commands to execute whenever a breakpoint is hit. Very useful:
@@ -490,7 +365,7 @@ commands
 end
 ---------------------
 "Conditional watch:
- $ watch my_var if my_var ˃ 3
+ $ watch my_var if my_var > 3
 ---------------------
 "You can set a watchpoint that does not go out of scope by setting it to the memory address.
 
@@ -586,8 +461,6 @@ EXAMPLES
 SEE ALSO
      ar(1), ld(1), nm(1), ranlib(1), tsort(1) 101
 ##########################
-https://github.com/tldr-pages/tldr/blob/master/pages/common/make.md @ma
-##########################
 https://github.com/tldr-pages/tldr/blob/master/pages/common/msbuild.md
     The Microsoft build tool for Visual Studio project solutions.
 More information: https://docs.microsoft.com/visualstudio/msbuild.
@@ -607,76 +480,7 @@ A tool that takes LLVM source files and runs specified
 optimizations and/or analyses on them. More information:
 https://llvm.org/docs/CommandGuide/opt.html.
 
-● Autotools  [[{]]
-http://www.lrde.epita.fr/~adl/autotools.html"
-Autotools vs SCons vs CMake:
-@[http://stackoverflow.com/questions/4071880/autotools-vs-cmake-vs-scons]
-www-alt.gsi.de/documents/DOC-2007-Sep-17-1.pdf
-
-http://fr.wikipedia.org/wiki/Autotools
-"Ref: http://www-igm.univ-mlv.fr/~dr/XPOSE/Breugnot/
-
-  Makefile.am ───┬───→ Automake ───→ Makefile.in ───┐
-                 │                                  │
-       ┌─────────┘                                  │
-       v                                            v
-  Configure.in ─────→ Autoconf ──────────────────˃ Configure ──˃ Makefile
-
-
-  Configure.in ─────────────˃ Autoconf ───˃ Configure
-                                ^
-  Aclocal ────→ Aclocal.mp4 ────┘
-
-
-  (Makefile.am, Configure.in) - -˃ Automake - -˃ Makefile.in
-
-
-  (Aclocal) -˃ Aclocal.mp4
-
-
-  (Configure.in, Aclocal.mp4) -˃ Autoconf -˃ Configure
-
-
-  (Makefile.in) -˃ Configure -˃ Makefile
-
-  (Configure.in, Accconfig.h) -˃ Autoheader -˃ Config.h.in -˃ Configure
-
-
-  Configure.in: Options we want to test in our system (library dependencies,...)
-  Makefile.am : Tells how the code must be build. It has a serie of Automake
-                macro definitions with the form:
-                variable = value
-  Autoheader  : Helps to sync header (include ...) dependencies."
-
-  Autotools Mythbuster: https://autotools.io/index.html
-
-    When                Command     Actions
-  -------------------------------------------------------------------------------------
-    Start of project    autoscan    Creates template file for Configure.in
-                                    Writes Makefile.am (program structure)
-
-                        aclocal     To install extra utility tools for automake
-
-                        autoheader  To determine pre-processor variables to be defined,
-                                    and saving them to 'config.h.in' file
-  -------------------------------------------------------------------------------------
-    at start or when    autoconf    Creates 'configure' from 'Configure.in'
-    'configure.in'
-    is modified
-  -------------------------------------------------------------------------------------
-    at start or when    automake    Creates 'Makefile.in' from 'Makefile.am'
-    'makefile.in' is
-    lost
-  -------------------------------------------------------------------------------------
-    To change config.   configure   Creates 'Makefile' and 'config.h' depending on
-                                    compilation options choosen.
-  -------------------------------------------------------------------------------------
-    To compile sources  make        Compile les sources ou met à jour les binaires
-    to executable
-  -------------------------------------------------------------------------------------
-[[}]]
-
-● Valgrind  [[{Valgrind,debugging,profiling,qa,01_PM.TODO]]  101
+## Valgrind  [[{Valgrind,debugging,profiling,qa,01_PM.TODO]]  101
 @[http://valgrind.org/docs/manual/manual.html]
 http://valgrind.org/docs/manual/cg-manual.html
 - Memcheck   : memory error detector.               [debugging]
@@ -715,7 +519,7 @@ program when it is doing some task.
 
 So this is what I recommend. Run program first:
 
-valgrind --tool=callgrind --dump-instr=yes -v --instr-atstart=no ./binary ˃ tmp
+valgrind --tool=callgrind --dump-instr=yes -v --instr-atstart=no ./binary > tmp
 
 Now when it works and we want to start profiling we should run in another window:
 
@@ -735,19 +539,19 @@ shows how much each function itself took time, not together with
 dependents.
 [[}]]
 
-● PROFILING: [[{]]
+## PROFILING: [[{]]
 "1999 : LTT, 2005 : LTTng, 2005 : Dtrace,  2008 : Ftrace, 2009 : Perf, 2012 : LTTng 2.0
 https://lttng.org/lttng2.0
 http://lttng.org/files/papers/presentations/lttng20tracingforeveryone.pdf
 src: http://lttng.org/files/papers/presentations/lttng20tracingforeveryone.pdf
 (create, enable, start, stop, view, destroy)
-# lttng create
-# lttng enable-event -k -a
-# lttng enable-event -u -a
-# lttng start
-# lttng stop
-# lttng view
-# lttng destroy
+## lttng create
+## lttng enable-event -k -a
+## lttng enable-event -u -a
+## lttng start
+## lttng stop
+## lttng view
+## lttng destroy
 
 ------------------------------------------------------------------------
 gprof
@@ -771,7 +575,7 @@ CPU time.
 Though there exist advanced techniques (such as systemtap and dtrace call level probes),
 it is overkill to build upon that. Poor man doesn't have time. Poor man needs food. "" [[}]]
 
-● SystemTAP, PROFILING:                        [[{]]
+## SystemTAP, PROFILING:                        [[{]]
   "In order to aid in debugging and monitoring internal behavior, the
   GNU C Library exposes nearly-zero-overhead SystemTap probes marked
   with the libc provider.  These probes are not part of the GNU C
@@ -781,7 +585,7 @@ it is overkill to build upon that. Poor man doesn't have time. Poor man needs fo
   will have a different name, so that program monitors relying on the
   old probe will not get unexpected arguments.  [[}]]
 
-● perf                                 [[{]
+## perf                                 [[{]
 "Newer kernels (e.g. the latest Ubuntu kernels) come with the new
 'perf' tools (apt-get install linux-tools) aka perf_events
 http://web.archive.org/web/20111105130616/http://blog.bepointbe.be/index.php/2008/10/19/30-a-bit-of-plasma-profiling
@@ -793,7 +597,7 @@ The important thing is that these tools can be system profiling
 threads, processes and the kernel and let you understand the scheduling
 and IO dependencies between processes.  [[}]]
 
-● oprofile  is good because it makes it much easier than gprof
+## oprofile  is good because it makes it much easier than gprof
   to profile multiple programs at once. You also can run it
   on your release build (if it has symbols), instead of having to build
   a special profiling build.
@@ -829,7 +633,7 @@ What is important to know is that Valgrind is basically a Virtual Machine:
   percentage of memory, and WHO had put it there. Such information is
   available at different points of time of application run
 
-● SystemTap [[{]]
+## SystemTap [[{]]
 "https://access.redhat.com/site/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Deployment_Guide/s1-oprofile-and-systemtap.html
 
 SystemTap is a tracing and probing tool that allows users to study
@@ -838,10 +642,10 @@ provides information similar to the output of tools like netstat, ps,
 top, and iostat; however, SystemTap is designed to provide more
 filtering and analysis options for collected information.
 
-˃˃˃˃˃˃While using OProfile is suggested in cases of collecting
+>>>>>>While using OProfile is suggested in cases of collecting
 data on where and why the processor spends time in a particular area
 of code, it is less usable when finding out why the processor stays
-idle. ˂˂˂˂˂
+idle. <<<<<
 
 You might want to use SystemTap when instrumenting specific places in
 code. Because SystemTap allows you to run the code instrumentation
@@ -852,7 +656,7 @@ For more information on SystemTap, refer to Section 26.11.2,
 “Useful Websites” for the relevant SystemTap documentation. [[}]]
 ------------------------------------
 
-● google-perftools
+## google-perftools
  https://code.google.com/p/gperftools/?redir=1
   google-perftools is the only reasonable alternative to gprof I've
 found. It's quite usable, familiar, and I believe it's time sampling,
@@ -863,7 +667,7 @@ invasive.
 [[}]]
 
 
-● Linking ELF  [[{]]
+## Linking ELF  [[{]]
 Linking ELF:
 objcopy - copy and translate object files
 it can be used to generate a raw binary file by using an output target of binary (e.g., use -O binary).  When objcopy
@@ -916,7 +720,7 @@ Is there any way to make this alchemical trick work?  How can I extract selected
 
 -------------------------
 http://gcc.gnu.org/ml/gcc-help/2012-10/msg00159.html
-From: Michael Zintakis ˂michael dot zintakis at googlemail dot com˃
+From: Michael Zintakis <michael dot zintakis at googlemail dot com>
 I'm only not sure if the kernel know all the sorts of ELF sections and segments ld.so can handle.
 Probably you'll need to modify kernel code to walk over DYNAMIC
 segment (which keeps the list of dependencies) to verify the shared
@@ -939,11 +743,11 @@ as though ld.so also needs to be capable of doing the verification.
 On a slightly brighter node, (dynamically) adding new sections to ELF
 turned out to be an easy task, even if the executable/.so file is
 already compiled/built - all I have to do is execute ""objcopy
---add-section ˂section_name˃=˂section_file˃ ˂infile˃"" and then
-""objcopy --set-section-flags ˂section_name˃=˂flags˃ ˂infile˃""
-to set the appropriate flags to ˂section_name˃ (""readonly"" in my
+--add-section <section_name>=<section_file> <infile>"" and then
+""objcopy --set-section-flags <section_name>=<flags> <infile>""
+to set the appropriate flags to <section_name> (""readonly"" in my
 case). As soon as this is done, the section is added (with its
-content set from the content of ˂section_file˃) and the appropriate
+content set from the content of <section_file>) and the appropriate
 reallocation of the ELF binary is ""automatically"" done by objcopy.
 
 My initial intent was to create a new section in the ELF header, but
@@ -962,392 +766,13 @@ ________________________
 http://www.airs.com/blog/archives/518
 [[}]]
 
-● MAKE [[{101]]
-"C&P from: http://mad-scientist.net/make/rules.html
-Paul's Rules of Makefiles
- A somewhat tongue-in-cheek title, but this page lists a few very important rules you should always keep in mind when creating makefiles.
-Following these rules will allow your makefiles to be both pithy and beautiful.  And they will make maintaining and modifying them, and thus
-your entire life, a much more pleasant experience.
-
- Use GNU make.
-
- Don't hassle with writing portable makefiles, use a portable make instead!
-  Every non-.PHONY
-rule must update a file with the exact name of its target.
-
- Make sure every command script touches the file ""$@""--
-not ""../$@"", or ""$(notdir $@)"", but
-exactly $@.  That way you and GNU make always agree.
-  Life is simplest if the targets are built in the current working directory.
-
- Use VPATH to locate the sources from the objects directory, not to locate the objects from the sources directory.
-  Follow the Principle of Least Repetition.
-
- Try to never write a filename more than once.  Do this through a combination of make variables, pattern rules, automatic variables, and GNU
-make functions.  Every non-continued line that starts with a TAB is part of a command script--and vice versa.
-
- If a non-continued line does not begin with a TAB character, it is never part of a command script: it is always interpreted as makefile syntax.
- If a non-continued line does begin with a TAB character, it is always part of a command script: it is never interpreted as makefile syntax.
-
- Continued lines are always of the same type as their predecessor, regardless of what characters they start with.
-
-
- Yes, that's all of them... so far.  It's not that that's all I have to say on the subject, but coming up with points which are both truly fundamental
-and expressible in a succinct rule format, ain't easy.
-
- Let me know if you have suggestions.
-
-Paul D. Smith
-˂psmith@gnu.org˃"
-"Quick Reference:
-Appendix A Quick Reference
-This appendix summarizes the directives, text manipulation functions, and special variables which GNU make understands.
-See Special Targets, Catalogue of Implicit Rules, and Summary of Options, for other summaries.
-   Here is a summary of the directives GNU make recognizes:
-define variable define variable =define variable :=define variable ::=define variable +=define variable ?=endefDefine multi-line variables.
-See Multi-Line. undefine variableUndefining variables.
-See Undefine Directive.
-ifdef variableifndef variableifeq (a,b)ifeq ""a"" ""b""ifeq 'a' 'b'ifneq (a,b)ifneq ""a"" ""b""ifneq 'a' 'b'elseendif Conditionally evaluate part of the makefile.
-override variable-assignmentDefine a variable, overriding any previous definition, even one from the command line.
-See The override Directive.
-export Tell make to export all variables to child processes by default.
-See Communicating Variables to a Sub-make.
-export variableexport variable-assignmentunexport variableTell make whether or not to export a particular variable to child processes.
-See Communicating Variables to a Sub-make.
-private variable-assignmentDo not allow this variable assignment to be inherited by prerequisites.
-
-See Suppressing Inheritance.
-
-vpath pattern pathSpecify a search path for files matching a ‘%’ pattern.
-
-See The vpath Directive.
-
-vpath patternRemove all search paths previously specified for pattern.
-
-vpathRemove all search paths previously specified in any vpath directive.
-
-Here is a summary of the built-in functions (see Functions):
-
- $(subst from,to,text)Replace from with to in text.
-
-See Functions for String Substitution and Analysis.
-
-$(patsubst pattern,replacement,text)Replace words matching pattern with replacement in text.
-
-See Functions for String Substitution and Analysis.
-
-$(strip string)Remove excess whitespace characters from string.
-
-See Functions for String Substitution and Analysis.
-
-$(findstring find,text)Locate find in text.
-
-See Functions for String Substitution and Analysis.
-
-
-$(filter pattern...,text)Select words in text that match one of the pattern words.
-
-See Functions for String Substitution and Analysis.
-
-
-$(filter-out pattern...,text)Select words in text that do not match any of the pattern words.
-
-See Functions for String Substitution and Analysis.
-
-
-$(sort list)Sort the words in list lexicographically, removing duplicates.
-
-See Functions for String Substitution and Analysis.
-
-
-$(word n,text)Extract the nth word (one-origin) of text.
-
-See Functions for String Substitution and Analysis.
-
-
-$(words text)Count the number of words in text.
-
-See Functions for String Substitution and Analysis.
-
-
-$(wordlist s,e,text)Returns the list of words in text from s to e.
-
-See Functions for String Substitution and Analysis.
-
-
-$(firstword names...)Extract the first word of names.
-
-See Functions for String Substitution and Analysis.
-
-
-$(lastword names...)Extract the last word of names.
-
-See Functions for String Substitution and Analysis.
-
-
-$(dir names...)Extract the directory part of each file name.
-
-See Functions for File Names.
-
-
-$(notdir names...)Extract the non-directory part of each file name.
-
-See Functions for File Names.
-
-
-$(suffix names...)Extract the suffix (the last ‘.’ and following characters) of each file name.
-
-See Functions for File Names.
-
-
-$(basename names...)Extract the base name (name without suffix) of each file name.
-
-See Functions for File Names.
-
-
-$(addsuffix suffix,names...)Append suffix to each word in names.
-
-See Functions for File Names.
-
-
-$(addprefix prefix,names...)Prepend prefix to each word in names.
-
-See Functions for File Names.
-
-
-$(join list1,list2)Join two parallel lists of words.
-
-See Functions for File Names.
-
-
-$(wildcard pattern...)Find file names matching a shell file name pattern (not a
-‘%’ pattern).
-
-See The Function wildcard.
-
-
-$(realpath names...)For each file name in names, expand to an absolute name that
-does not contain any ., .., nor symlinks.
-
-See Functions for File Names.
-
-
-$(abspath names...)For each file name in names, expand to an absolute name that
-does not contain any . or .. components, but preserves
-symlinks.
-
-See Functions for File Names.
-
-
-$(error text...)When this function is evaluated, make generates a fatal error
-with the message text.
-
-See Functions That Control Make.
-
-
-$(warning text...)When this function is evaluated, make generates a warning with
-the message text.
-
-See Functions That Control Make.
-
-
-$(shell command)Execute a shell command and return its output.
-
-See The shell Function.
-
-
-$(origin variable)Return a string describing how the make variable variable was
-defined.
-
-See The origin Function.
-
-
-$(flavor variable)Return a string describing the flavor of the make variable
-variable.
-
-See The flavor Function.
-
-
-$(foreach var,words,text)Evaluate text with var bound to each word in words,
-and concatenate the results.
-
-See The foreach Function.
-
-
-$(if condition,then-part[,else-part])Evaluate the condition condition; if it's non-empty substitute
-the expansion of the then-part otherwise substitute the
-expansion of the else-part.
-
-See Functions for Conditionals.
-
-
-$(or condition1[,condition2[,condition3...]])Evaluate each condition conditionN one at a time; substitute the
-first non-empty expansion.  If all expansions are empty, substitute
-the empty string.
-
-See Functions for Conditionals.
-
-
-$(and condition1[,condition2[,condition3...]])Evaluate each condition conditionN one at a time; if any
-expansion results in the empty string substitute the empty string.  If
-all expansions result in a non-empty string, substitute the expansion
-of the last condition.
-
-See Functions for Conditionals.
-
-
-$(call var,param,...)Evaluate the variable var replacing any references to $(1),
-$(2) with the first, second, etc. param values.
-
-See The call Function.
-
-
-$(eval text)Evaluate text then read the results as makefile commands.
-Expands to the empty string.
-
-See The eval Function.
-
-
-$(file op filename,text)Expand the arguments, then open the file filename using mode
-op and write text to that file.
-
-See The file Function.
-
-
-$(value var)Evaluates to the contents of the variable var, with no expansion
-performed on it.
-
-See The value Function.
-
-
-   Here is a summary of the automatic variables.
-See Automatic Variables,
-for full information.
-
-     $@The file name of the target.
-
-
-$%The target member name, when the target is an archive member.
-
-
-$˂The name of the first prerequisite.
-
-
-$?The names of all the prerequisites that are
-newer than the target, with spaces between them.
-For prerequisites which are archive members, only
-the named member is used (see Archives).
-
-
-$^$+The names of all the prerequisites, with spaces between them.  For
-prerequisites which are archive members, only the named member is used
-(see Archives).  The value of $^ omits duplicate
-prerequisites, while $+ retains them and preserves their order.
-
-
-$*The stem with which an implicit rule matches
-(see How Patterns Match).
-
-
-$(@D)$(@F)The directory part and the file-within-directory part of $@.
-
-
-$(ºD)$(ºF)The directory part and the file-within-directory part of $*.
-
-
-$(%D)$(%F)The directory part and the file-within-directory part of $%.
-
-
-$(˂D)$(˂F)The directory part and the file-within-directory part of $˂.
-
-
-$(^D)$(^F)The directory part and the file-within-directory part of $^.
-
-
-$(+D)$(+F)The directory part and the file-within-directory part of $+.
-
-
-$(?D)$(?F)The directory part and the file-within-directory part of $?.
-
-
-   These variables are used specially by GNU make:
-
-     MAKEFILES
-Makefiles to be read on every invocation of make. See The Variable MAKEFILES.
-VPATH Directory search path for files not found in the current directory. See VPATH Search Path for All Prerequisites.
-
-SHELL The name of the system default command interpreter, usually /bin/sh.  You can set SHELL in the makefile to change the shell used to run recipes.  See Recipe Execution.  The SHELL variable is handled specially when importing from and exporting to the environment.  See Choosing the Shell.
-
-
-MAKESHELL On MS-DOS only, the name of the command interpreter that is to be used by make.  This value takes precedence over the value of SHELL.  See MAKESHELL variable.
-
-
-MAKE The name with which make was invoked.  Using this variable in recipes has special meaning.  See How the MAKE Variable Works.
-
-
-MAKE_VERSION The built-in variable ‘MAKE_VERSION’ expands to the version number of the GNU make program.
-
-
-MAKE_HOST The built-in variable ‘MAKE_HOST’ expands to a string representing the host that GNU make was built to run on.
-
-
-MAKELEVEL The number of levels of recursion (sub-makes). See Variables/Recursion.
-
-
-MAKEFLAGS The flags given to make.  You can set this in the environment or a makefile to set flags.
-
-See Communicating Options to a Sub-make. It is never appropriate to use MAKEFLAGS directly in a recipe line: its contents may not be quoted correctly for use in the shell.  Always allow recursive make's to obtain these values through the environment from its parent.
-
-GNUMAKEFLAGS Other flags parsed by make.  You can set this in the environment or a makefile to set make command-line flags.  GNU make never sets this variable itself.  This variable is only needed if you'd like to set GNU make-specific flags in a POSIX-compliant makefile.  This variable will be seen by GNU make and ignoredby other make implementations.  It's not needed if you only use GNU make; just use MAKEFLAGS directly. See Communicating Options to a Sub-make.
-
-
-MAKECMDGOALS The targets given to make on the command line.  Setting thisvariable has no effect on the operation of make. See Arguments to Specify the Goals.
-
-
-CURDIR Set to the pathname of the current working directory (after all -C options are processed, if any).  Setting this variable has no effect on the operation of make.
-
-See Recursive Use of make.
-
-SUFFIXES The default list of suffixes before make reads any makefiles.
-.LIBPATTERNSDefines the naming of the libraries make searches for, and their order.
-
-See Directory Search for Link Libraries. "
-[[}]]
-
-● String manipulation  [[{101.strings]]
+## String manipulation  [[{101.strings]]
 http://www.rainydayz.org/beej/bgc/stringref.html
 [[}]]
 
-● gcc [[{]]
-  $ gcc
-    -g                     // add debugging info
-    -Idir1 -Idir2          <-- Add directory to include search path
-    -D_FORTIFY_SOURCE=2
-    -D_ISOC99_SOURCE       <-- The GNU C Library nevertheless has a complete ISOC99 implementation of the standard. Use this macro to activate. This is actually a libc option, not a compiler option. http://www.gnu.org/software/libc/manual/html_node/Feature-Test-Macros.html
-    -std=c99
-    -D_FILE_OFFSET_BITS=64  <-- Usefull for apps with large files (Video, big databases,..)
-    -D_LARGEFILE_SOURCE
-    -D_POSIX_C_SOURCE=200112
-    -D_XOPEN_SOURCE=600
-    -O2   // Code Optimization level
-    -fstack-protector
-    --param=ssp-buffer-size=4
-    -Wformat
-    -Werror=format-security
-    -fomit-frame-pointer
-    -pthread // <-- activate posix trheads
-    -Wall
-    -fno-math-errno
-    -fno-signed-zeros
-    -fno-tree-vectorize
-    -MMD
-    -MF lua_avconv.d
-    -MT lua_avconv.o
-    -c
-    -o lua_avconv.o lua_avconv.c
-[[}]]
 
-● https://eli.thegreenplace.net/tag/c-c  [[{]]
+## The Green Place !!!  [[{]]
+@[https://eli.thegreenplace.net/tag/c-c]
 2019.11.23:     "Beating" C with 400 lines of unoptimized assembly
 2019.07.22:     Faster XML stream processing in Go
 2019.07.15:     Passing callbacks and pointers to Cgo
@@ -1477,19 +902,23 @@ http://www.rainydayz.org/beej/bgc/stringref.html
 2003.05.09:     Coding in C++, wishing it were Lisp (or Perl)
 [[}]]
 
-● "C/C++ visibility:
+## "C/C++ visibility:
   http://www.ibm.com/developerworks/aix/library/au-aix-symbol-visibility/index.html?ca=drs-
 
-● https://code.google.com/p/address-sanitizer/
+## AddressSanitizer [[{]]
+ https://code.google.com/p/address-sanitizer/
   AddressSanitizer (ASan) is a fast memory error detector.
   It finds use-after-free and {heap,stack,global}-buffer overflow bugs in C/C++ programs.
+[[}]]
 
-● https://github.com/preservim/tagbar
+## tagbar vim plugin [[{]]
+ https://github.com/preservim/tagbar
   Vim plugin: easy way to browse the tags of the current file and get
   an overview of its structure in a sidebar.
   For example methods in C++ are displayed under the class they are defined in
+[[}]]
 
-● gdb pretty printer [[{]]
+## gdb pretty printer [[{]]
  https://undo.io/resources/gdb-watchpoint/here-quick-way-pretty-print-structures-gdb/
 
 - Using pretty-printers can save lot of time staring at your computer screen and
@@ -1537,7 +966,7 @@ We write our program in Python.
 
 $ vim prettyprint.py
 
-# Start off with defining the printer as a Python object.
+## Start off with defining the printer as a Python object.
 
 class SiginfoPrinter:
 
@@ -1553,22 +982,22 @@ class SiginfoPrinter:
     signo = self.val['si_signo']
     return str(signo)
 
-# Next, define the lookup function that returns the
-# printer object when it receives a siginfo_t.
+## Next, define the lookup function that returns the
+## printer object when it receives a siginfo_t.
 
-# The function takes the GDB value-type, which, in
-# our example is used to look for the siginfo_t.
+## The function takes the GDB value-type, which, in
+## our example is used to look for the siginfo_t.
 
 def my_pp_func(val):
   if str(val.type) == 'siginfo_t': return SiginfoPrinter(val)
 
-# Finally, append the pretty-printer as object/ function to
-# the list of registered GDB printers.
+## Finally, append the pretty-printer as object/ function to
+## the list of registered GDB printers.
 
 gdb.pretty_printers.append(my_pp_func)
 
-# Our pretty-printer is now available when we debug
-# the inferior program in GDB.
+## Our pretty-printer is now available when we debug
+## the inferior program in GDB.
 
 Now, run your inferior program and hit Ctrl-C to quit. Our
 pretty-printer returns the value 2; the value for a SIGINT.
@@ -1961,27 +1390,22 @@ The full source of the examples shown above can be downloaded for reference:
     printers.py
 [[}]]
 
-● C/C++: How different programming languages read and write data [[{101.I/O]]
+## C/C++: How different programming languages read and write data [[{101.I/O]]
 https://opensource.com/article/21/7/programming-read-write
 [[}]]
 
-● Memory error checking in C and C++: Comparing Sanitizers and Valgrind
+## Memory error checking in C and C++: Comparing Sanitizers and Valgrind
 https://developers.redhat.com/blog/2021/05/05/memory-error-checking-in-c-and-c-comparing-sanitizers-and-valgrind
 
-● Instant replay: Debugging C and C++ programs with rr
+## Instant replay: Debugging C and C++ programs with rr
 https://developers.redhat.com/blog/2021/05/03/instant-replay-debugging-c-and-c-programs-with-rr
 
-● C/C++ tutorial, 101: Memory Layout of C Programs
+## C/C++ tutorial, 101: Memory Layout of C Programs
 https://www.geeksforgeeks.org/memory-layout-of-c-program/
-
-● https://developers.redhat.com/articles/2021/10/29/beginners-attempt-optimizing-gcc?sc_cid=7013a000002pxeoAAA#finding_a_suitable_gcc_bug
-
-● The utility also tries to minimize its impact on the OS page-cache by [[{performance.storage]]
-  using the appropriate posix_fadvise() calls when available.[[}]]
 
 
 #############################
-● libffi: High Leve Language Interface [[{]]
+## libffi: High Leve Language Interface [[{]]
   https://sourceware.org/libffi/
 
 Compilers for high level languages generate code that follows certain
@@ -2043,72 +1467,44 @@ between interpreted and natively compiled code. gcj is part of the
 GCC, the GNU Compiler Collection.
 [[}]]
 
-● debugging: Blinkenlights
+## debugging: Blinkenlights
 https://justine.lol/blinkenlights/
 
-● C/C++ Intel® oneAPI DPC++ Library - APIs for Heterogeneous Computing
+## C/C++ Intel® oneAPI DPC++ Library - APIs for Heterogeneous Computing
 https://www.intel.com/content/www/us/en/developer/tools/oneapi/dpc-library.html
 
-● Dropbox Makes the Android App Faster and More Reliable:
+## Dropbox Makes the Android App Faster and More Reliable:
   Swaps C++ Code for a Native Approach
   https://www.infoq.com/news/2022/03/dropbox-android-kotlin/
 
-● C/C++: Cosmopolitan Libc: build-once run-anywhere C library
+## C/C++: Cosmopolitan Libc: build-once run-anywhere C library
   https://justine.lol/cosmopolitan/
 
-● C/C++: Time Travel Debug for VS Code
+## C/C++: Time Travel Debug for VS Code
   https://undo.io/resources/time-travel-debug-vscode-extension
 
-● C/C++: New C++ features in GCC 12
+## C/C++: New C++ features in GCC 12
 https://developers.redhat.com/articles/2022/04/25/new-c-features-gcc-12?sc_cid=7013a0000030ungAAA#acknowledgments
 
-● gcc:
+## gcc:
   - Use   -verbose:gc  to get the garbage collection output.
   - If app OutOfMemoryError-crashes, extra info about memory leak
     can be obtained through –XX:HeapDumpOnOutOfMemory , creating a
     heap dump file
 
-● https://gceasy.io/
+## https://gceasy.io/
    Industry's first machine learning guided Garbage collection log
   analysis tool.  GCeasy has in-built intelligence to auto-detect
   problems in the JVM & Android GC logs and recommend solutions to it.
 
-● UDB Time Travel Debugger:
+## UDB Time Travel Debugger:
   Find and fix test failures in minutes  - including C/C++ race
   conditions, deadlocks and memory corruptions
 
-[[{01_PM.TODO]]
-● cmake  #[cmake_summary] [[{cmake]]
-@[https://github.com/tldr-pages/tldr/blob/master/pages/common/cmake.md]
-@[https://cmake.org/cmake/help/latest/manual/cmake.1.html]
-
-- Cross-platform build automation system generating recipes
-  for native build systems.
-
-  $ cmake $path_to_cmakelist           ← Create build recipe in "./" dir with
-                                         CMakeLists.txt from $path_to_cmakelist
-
-  $ cmake $project_dir \               ← Create build recipe
-$   -D ${CMAKE_BUILD_TYPE=Release}      ← build type set to Release with CMake variable
-
-  $ cmake --build $build_dir           ← Use generated recipe in $build_dir to build artifacts
-                                         Use flag $ --target ${target_name}  for custom build target
-  $ cmake --install $build_dir \       ← Install
-$   --prefix ${path/to/directory}       ← use custom prefix for install paths (default to /usr/local/)
-$  --strip                               ← strip debugging symbols
-
-------------------------------------
-• CMake test:
-@[https://github.com/tldr-pages/tldr/blob/master/pages/common/ctest.md]
-@[https://gitlab.kitware.com/cmake/community/wikis/doc/ctest/Testing-With-CTest]
-
-  $ ctest --output-on-failure \   ← Run 1+/all tests defined in CMake project
-$         -j${4}             \     ← Exec up to 4 jobs in parallel
-$         -R '^${test_name}$'      ← Run just test whose name matches regex
-[[}]]
 
 
-● Tiny C Compiler - By Fabric Bellard [[{]]
+
+## Tiny C Compiler - By Fabric Bellard [[{]]
 @[https://github.com/yuchao86/tcc]
 Tiny C Compiler - C Scripting Everywhere - The Smallest ANSI C compiler
 Features:
@@ -2133,7 +1529,7 @@ first line of your C source, and execute it directly from the command
 line.
 [[}]]
 
-● HPX: distributed C++ lib [[{architecture.distributed]]
+## HPX: distributed C++ lib [[{architecture.distributed]]
   - distributed C++ library for concurrency and parallelism.
   - implements APIs defined in the C++ Standard Library and extends them
     to work in a distributed memory space exposing a unified programing
@@ -2141,15 +1537,15 @@ line.
   - Closely aligned with C++ Standard standardization process.
 [[}]]
 
-● Compile 3x faster [[{gcc.TODO]]
+## Compile 3x faster [[{gcc.TODO]]
 https://developers.redhat.com/blog/2019/05/15/2-tips-to-make-your-c-projects-compile-3-times-faster/
 [[}]]
 
-● Control Make verbosity [[{make,TODO]]
+## Control Make verbosity [[{make,TODO]]
 @[https://stackoverflow.com/questions/8438661/control-the-output-of-a-make-command-to-be-less-verbose-dont-echo-each-command/22786988#22786988]
 [[}]]
 
-● udis86: Minimalistic Disassembler  [[{]]
+## udis86: Minimalistic Disassembler  [[{]]
 @[http://udis86.sourceforge.net/]
 - easy-to-use, minimalistic disassembler library (libudis86)
   for the x86 class of instruction set architectures.
@@ -2164,14 +1560,14 @@ $ echo "65 67 89 87 76 65 54 56 78 89 09 00 87" | udcli -32 -x
 0000000000000000 0900            or [eax], eax
 [[}]]
 
-● g-speak: [[{01_PM.TODO]]
+## g-speak: [[{01_PM.TODO]]
 @[https://www.oblong.com/g-speak]
 g-speak™ is a C/C++ SDK which enables the development of
 multi-user, multi-screen, multi-device, spatial, distributed
 applications.
 [[}]]
 
-● ASTRÉE: Static Analyzer  [[{qa.code.analyzer]]
+## ASTRÉE: Static Analyzer  [[{qa.code.analyzer]]
 David Monniaux (CNRS), member of the ASTRÉE project, says: “ASTRÉE is a
 static analyzer based on abstract interpretation that aims at proving the
 absence of runtime errors in safety-critical software written in a subset of
@@ -2199,11 +1595,11 @@ source code and makes it easy to work with recursive structures such as
 syntax trees.”
 [[}]]
 
-● How GNU C lib handles backward compatibility: [[{01_PM.TODO]]
+## How GNU C lib handles backward compatibility: [[{01_PM.TODO]]
 @[https://developers.redhat.com/blog/2019/08/01/how-the-gnu-c-library-handles-backward-compatibility/]
 [[}]]
 
-● Live Recorder 5  [[{01_PM.TODO]]
+## Live Recorder 5  [[{01_PM.TODO]]
 @[https://www.infoq.com/news/2019/12/undo-live-recorder/]
 - Earlier in the year the Undo team released Live Recorder 5, the
   latest version of their “software flight recorder technology” for
@@ -2217,7 +1613,7 @@ syntax trees.”
   to learn more.
 [[}]]
 
-● GCC code instrumentation:  [[{gcc.101,qa]]
+## GCC code instrumentation:  [[{gcc.101,qa]]
   https://gcc.gnu.org/onlinedocs/gcc/Instrumentation-Options.html
   -fsanitize=address
     Memory access instructions are instrumented to detect out-of-bounds and use-after-free bugs.
@@ -2230,11 +1626,634 @@ syntax trees.”
   address sanitizer (C compiler option -fsanitize=address).
 [[}]]
 
-● Online Compiler explorer: [[{]]
+## Online Compiler explorer: [[{]]
   Write C code and dump in real-time assembly compiled
   output:
   https://godbolt.org/
 [[}]]
 
-[[TODO}]]
+# Make
+## makefiletutorial [[{101.make]]
+  https://github.com/theicfire/makefiletutorial
+  https://makefiletutorial.com/
+
+## make examples
+https://github.com/tldr-pages/tldr/blob/master/pages/common/entr.md
+
+## TLDR:
+https://github.com/tldr-pages/tldr/blob/master/pages/common/make.md
+[[}]]
+
+## Make Summary [[{101]]
+"C&P from: http://mad-scientist.net/make/rules.html
+Paul's Rules of Makefiles
+ A somewhat tongue-in-cheek title, but this page lists a few very important rules you should always keep in mind when creating makefiles.
+Following these rules will allow your makefiles to be both pithy and beautiful.  And they will make maintaining and modifying them, and thus
+your entire life, a much more pleasant experience.
+
+ Use GNU make.
+
+ Don't hassle with writing portable makefiles, use a portable make instead!
+  Every non-.PHONY
+rule must update a file with the exact name of its target.
+
+ Make sure every command script touches the file ""$@""--
+not ""../$@"", or ""$(notdir $@)"", but
+exactly $@.  That way you and GNU make always agree.
+  Life is simplest if the targets are built in the current working directory.
+
+ Use VPATH to locate the sources from the objects directory, not to locate the objects from the sources directory.
+  Follow the Principle of Least Repetition.
+
+ Try to never write a filename more than once.  Do this through a combination of make variables, pattern rules, automatic variables, and GNU
+make functions.  Every non-continued line that starts with a TAB is part of a command script--and vice versa.
+
+ If a non-continued line does not begin with a TAB character, it is never part of a command script: it is always interpreted as makefile syntax.
+ If a non-continued line does begin with a TAB character, it is always part of a command script: it is never interpreted as makefile syntax.
+
+ Continued lines are always of the same type as their predecessor, regardless of what characters they start with.
+
+
+ Yes, that's all of them... so far.  It's not that that's all I have to say on the subject, but coming up with points which are both truly fundamental
+and expressible in a succinct rule format, ain't easy.
+
+ Let me know if you have suggestions.
+
+Paul D. Smith
+<psmith@gnu.org>"
+"Quick Reference:
+Appendix A Quick Reference
+This appendix summarizes the directives, text manipulation functions, and special variables which GNU make understands.
+See Special Targets, Catalogue of Implicit Rules, and Summary of Options, for other summaries.
+   Here is a summary of the directives GNU make recognizes:
+define variable define variable =define variable :=define variable ::=define variable +=define variable ?=endefDefine multi-line variables.
+See Multi-Line. undefine variableUndefining variables.
+See Undefine Directive.
+ifdef variableifndef variableifeq (a,b)ifeq ""a"" ""b""ifeq 'a' 'b'ifneq (a,b)ifneq ""a"" ""b""ifneq 'a' 'b'elseendif Conditionally evaluate part of the makefile.
+override variable-assignmentDefine a variable, overriding any previous definition, even one from the command line.
+See The override Directive.
+export Tell make to export all variables to child processes by default.
+See Communicating Variables to a Sub-make.
+export variableexport variable-assignmentunexport variableTell make whether or not to export a particular variable to child processes.
+See Communicating Variables to a Sub-make.
+private variable-assignmentDo not allow this variable assignment to be inherited by prerequisites.
+
+See Suppressing Inheritance.
+
+vpath pattern pathSpecify a search path for files matching a ‘%’ pattern.
+
+See The vpath Directive.
+
+vpath patternRemove all search paths previously specified for pattern.
+
+vpathRemove all search paths previously specified in any vpath directive.
+
+Here is a summary of the built-in functions (see Functions):
+
+ $(subst from,to,text)Replace from with to in text.
+
+See Functions for String Substitution and Analysis.
+
+$(patsubst pattern,replacement,text)Replace words matching pattern with replacement in text.
+
+See Functions for String Substitution and Analysis.
+
+$(strip string)Remove excess whitespace characters from string.
+
+See Functions for String Substitution and Analysis.
+
+$(findstring find,text)Locate find in text.
+
+See Functions for String Substitution and Analysis.
+
+
+$(filter pattern...,text)Select words in text that match one of the pattern words.
+
+See Functions for String Substitution and Analysis.
+
+
+$(filter-out pattern...,text)Select words in text that do not match any of the pattern words.
+
+See Functions for String Substitution and Analysis.
+
+
+$(sort list)Sort the words in list lexicographically, removing duplicates.
+
+See Functions for String Substitution and Analysis.
+
+
+$(word n,text)Extract the nth word (one-origin) of text.
+
+See Functions for String Substitution and Analysis.
+
+
+$(words text)Count the number of words in text.
+
+See Functions for String Substitution and Analysis.
+
+
+$(wordlist s,e,text)Returns the list of words in text from s to e.
+
+See Functions for String Substitution and Analysis.
+
+
+$(firstword names...)Extract the first word of names.
+
+See Functions for String Substitution and Analysis.
+
+
+$(lastword names...)Extract the last word of names.
+
+See Functions for String Substitution and Analysis.
+
+
+$(dir names...)Extract the directory part of each file name.
+
+See Functions for File Names.
+
+
+$(notdir names...)Extract the non-directory part of each file name.
+
+See Functions for File Names.
+
+
+$(suffix names...)Extract the suffix (the last ‘.’ and following characters) of each file name.
+
+See Functions for File Names.
+
+
+$(basename names...)Extract the base name (name without suffix) of each file name.
+
+See Functions for File Names.
+
+
+$(addsuffix suffix,names...)Append suffix to each word in names.
+
+See Functions for File Names.
+
+
+$(addprefix prefix,names...)Prepend prefix to each word in names.
+
+See Functions for File Names.
+
+
+$(join list1,list2)Join two parallel lists of words.
+
+See Functions for File Names.
+
+
+$(wildcard pattern...)Find file names matching a shell file name pattern (not a
+‘%’ pattern).
+
+See The Function wildcard.
+
+
+$(realpath names...)For each file name in names, expand to an absolute name that
+does not contain any ., .., nor symlinks.
+
+See Functions for File Names.
+
+
+$(abspath names...)For each file name in names, expand to an absolute name that
+does not contain any . or .. components, but preserves
+symlinks.
+
+See Functions for File Names.
+
+
+$(error text...)When this function is evaluated, make generates a fatal error
+with the message text.
+
+See Functions That Control Make.
+
+
+$(warning text...)When this function is evaluated, make generates a warning with
+the message text.
+
+See Functions That Control Make.
+
+
+$(shell command)Execute a shell command and return its output.
+
+See The shell Function.
+
+
+$(origin variable)Return a string describing how the make variable variable was
+defined.
+
+See The origin Function.
+
+
+$(flavor variable)Return a string describing the flavor of the make variable
+variable.
+
+See The flavor Function.
+
+
+$(foreach var,words,text)Evaluate text with var bound to each word in words,
+and concatenate the results.
+
+See The foreach Function.
+
+
+$(if condition,then-part[,else-part])Evaluate the condition condition; if it's non-empty substitute
+the expansion of the then-part otherwise substitute the
+expansion of the else-part.
+
+See Functions for Conditionals.
+
+
+$(or condition1[,condition2[,condition3...]])Evaluate each condition conditionN one at a time; substitute the
+first non-empty expansion.  If all expansions are empty, substitute
+the empty string.
+
+See Functions for Conditionals.
+
+
+$(and condition1[,condition2[,condition3...]])Evaluate each condition conditionN one at a time; if any
+expansion results in the empty string substitute the empty string.  If
+all expansions result in a non-empty string, substitute the expansion
+of the last condition.
+
+See Functions for Conditionals.
+
+
+$(call var,param,...)Evaluate the variable var replacing any references to $(1),
+$(2) with the first, second, etc. param values.
+
+See The call Function.
+
+
+$(eval text)Evaluate text then read the results as makefile commands.
+Expands to the empty string.
+
+See The eval Function.
+
+
+$(file op filename,text)Expand the arguments, then open the file filename using mode
+op and write text to that file.
+
+See The file Function.
+
+
+$(value var)Evaluates to the contents of the variable var, with no expansion
+performed on it.
+
+See The value Function.
+
+
+   Here is a summary of the automatic variables.
+See Automatic Variables,
+for full information.
+
+     $@The file name of the target.
+
+
+$%The target member name, when the target is an archive member.
+
+
+$<The name of the first prerequisite.
+
+
+$?The names of all the prerequisites that are
+newer than the target, with spaces between them.
+For prerequisites which are archive members, only
+the named member is used (see Archives).
+
+
+$^$+The names of all the prerequisites, with spaces between them.  For
+prerequisites which are archive members, only the named member is used
+(see Archives).  The value of $^ omits duplicate
+prerequisites, while $+ retains them and preserves their order.
+
+
+$*The stem with which an implicit rule matches
+(see How Patterns Match).
+
+
+$(@D)$(@F)The directory part and the file-within-directory part of $@.
+
+
+$(ºD)$(ºF)The directory part and the file-within-directory part of $*.
+
+
+$(%D)$(%F)The directory part and the file-within-directory part of $%.
+
+
+$(<D)$(<F)The directory part and the file-within-directory part of $<.
+
+
+$(^D)$(^F)The directory part and the file-within-directory part of $^.
+
+
+$(+D)$(+F)The directory part and the file-within-directory part of $+.
+
+
+$(?D)$(?F)The directory part and the file-within-directory part of $?.
+
+
+   These variables are used specially by GNU make:
+
+     MAKEFILES
+Makefiles to be read on every invocation of make. See The Variable MAKEFILES.
+VPATH Directory search path for files not found in the current directory. See VPATH Search Path for All Prerequisites.
+
+SHELL The name of the system default command interpreter, usually /bin/sh.  You can set SHELL in the makefile to change the shell used to run recipes.  See Recipe Execution.  The SHELL variable is handled specially when importing from and exporting to the environment.  See Choosing the Shell.
+
+
+MAKESHELL On MS-DOS only, the name of the command interpreter that is to be used by make.  This value takes precedence over the value of SHELL.  See MAKESHELL variable.
+
+
+MAKE The name with which make was invoked.  Using this variable in recipes has special meaning.  See How the MAKE Variable Works.
+
+
+MAKE_VERSION The built-in variable ‘MAKE_VERSION’ expands to the version number of the GNU make program.
+
+
+MAKE_HOST The built-in variable ‘MAKE_HOST’ expands to a string representing the host that GNU make was built to run on.
+
+
+MAKELEVEL The number of levels of recursion (sub-makes). See Variables/Recursion.
+
+
+MAKEFLAGS The flags given to make.  You can set this in the environment or a makefile to set flags.
+
+See Communicating Options to a Sub-make. It is never appropriate to use MAKEFLAGS directly in a recipe line: its contents may not be quoted correctly for use in the shell.  Always allow recursive make's to obtain these values through the environment from its parent.
+
+GNUMAKEFLAGS Other flags parsed by make.  You can set this in the environment or a makefile to set make command-line flags.  GNU make never sets this variable itself.  This variable is only needed if you'd like to set GNU make-specific flags in a POSIX-compliant makefile.  This variable will be seen by GNU make and ignoredby other make implementations.  It's not needed if you only use GNU make; just use MAKEFLAGS directly. See Communicating Options to a Sub-make.
+
+
+MAKECMDGOALS The targets given to make on the command line.  Setting thisvariable has no effect on the operation of make. See Arguments to Specify the Goals.
+
+
+CURDIR Set to the pathname of the current working directory (after all -C options are processed, if any).  Setting this variable has no effect on the operation of make.
+
+See Recursive Use of make.
+
+SUFFIXES The default list of suffixes before make reads any makefiles.
+.LIBPATTERNSDefines the naming of the libraries make searches for, and their order.
+
+See Directory Search for Link Libraries. "
+[[}]]
+
+## Autotools  ("vs SCons vs CMake) [[{]]
+http://www.lrde.epita.fr/~adl/autotools.html"
+Autotools vs SCons vs CMake:
+@[http://stackoverflow.com/questions/4071880/autotools-vs-cmake-vs-scons]
+www-alt.gsi.de/documents/DOC-2007-Sep-17-1.pdf
+
+http://fr.wikipedia.org/wiki/Autotools
+"Ref: http://www-igm.univ-mlv.fr/~dr/XPOSE/Breugnot/
+
+  Makefile.am ───┬───→ Automake ───→ Makefile.in ───┐
+                 │                                  │
+       ┌─────────┘                                  │
+       v                                            v
+  Configure.in ─────→ Autoconf ──────────────────> Configure ──> Makefile
+
+
+  Configure.in ─────────────> Autoconf ───> Configure
+                                ^
+  Aclocal ────→ Aclocal.mp4 ────┘
+
+
+  (Makefile.am, Configure.in) - -> Automake - -> Makefile.in
+
+
+  (Aclocal) -> Aclocal.mp4
+
+
+  (Configure.in, Aclocal.mp4) -> Autoconf -> Configure
+
+
+  (Makefile.in) -> Configure -> Makefile
+
+  (Configure.in, Accconfig.h) -> Autoheader -> Config.h.in -> Configure
+
+
+  Configure.in: Options we want to test in our system (library dependencies,...)
+  Makefile.am : Tells how the code must be build. It has a serie of Automake
+                macro definitions with the form:
+                variable = value
+  Autoheader  : Helps to sync header (include ...) dependencies."
+
+  Autotools Mythbuster: https://autotools.io/index.html
+
+    When                Command     Actions
+  -------------------------------------------------------------------------------------
+    Start of project    autoscan    Creates template file for Configure.in
+                                    Writes Makefile.am (program structure)
+
+                        aclocal     To install extra utility tools for automake
+
+                        autoheader  To determine pre-processor variables to be defined,
+                                    and saving them to 'config.h.in' file
+  -------------------------------------------------------------------------------------
+    at start or when    autoconf    Creates 'configure' from 'Configure.in'
+    'configure.in'
+    is modified
+  -------------------------------------------------------------------------------------
+    at start or when    automake    Creates 'Makefile.in' from 'Makefile.am'
+    'makefile.in' is
+    lost
+  -------------------------------------------------------------------------------------
+    To change config.   configure   Creates 'Makefile' and 'config.h' depending on
+                                    compilation options choosen.
+  -------------------------------------------------------------------------------------
+    To compile sources  make        Compile les sources ou met à jour les binaires
+    to executable
+  -------------------------------------------------------------------------------------
+[[}]]
+
+#[cmake_summary]
+## cmake [[{cmake]]
+@[https://github.com/tldr-pages/tldr/blob/master/pages/common/cmake.md]
+@[https://cmake.org/cmake/help/latest/manual/cmake.1.html]
+
+- Cross-platform build automation system generating recipes
+  for native build systems.
+
+  $ cmake $path_to_cmakelist           ← Create build recipe in "./" dir with
+                                         CMakeLists.txt from $path_to_cmakelist
+
+  $ cmake $project_dir \               ← Create build recipe
+$   -D ${CMAKE_BUILD_TYPE=Release}      ← build type set to Release with CMake variable
+
+  $ cmake --build $build_dir           ← Use generated recipe in $build_dir to build artifacts
+                                         Use flag $ --target ${target_name}  for custom build target
+  $ cmake --install $build_dir \       ← Install
+$   --prefix ${path/to/directory}       ← use custom prefix for install paths (default to /usr/local/)
+$  --strip                               ← strip debugging symbols
+
+------------------------------------
+## CMake test:
+@[https://github.com/tldr-pages/tldr/blob/master/pages/common/ctest.md]
+@[https://gitlab.kitware.com/cmake/community/wikis/doc/ctest/Testing-With-CTest]
+
+  $ ctest --output-on-failure \   ← Run 1+/all tests defined in CMake project
+$         -j${4}             \     ← Exec up to 4 jobs in parallel
+$         -R '^${test_name}$'      ← Run just test whose name matches regex
+[[}]]
+
+
+
+
+
+
+# JAM (make++) build tool  [[{qa.UX,01_PM.low_code,01_PM.TODO]]
+@[http://www.perforce.com/jam/jam.html]
+makes building simple things simple and building complicated things manageable.
+
+Jam understands C/C++ dependencies, there is no need to declare header or object files.
+
+Jamfile                             Makefile
+Main proga : data.c main.c io.c ;   proga: data.o main.o io.o
+                                      cc data.o main.o io.o -o proga
+                                    data.o: data.c data.h
+                                      cc -c data.c
+
+                                    main.o: data.h io.h main.c
+                                      cc -c main.c
+
+                                    io.o: io.h io.c
+                                      cc -c io.c
+[[}]]
+
+#[gcc_summary]
+## GCC summary: [[{gcc.101,01_PM.TODO]]
+See gcc related tldr:
+@[https://github.com/tldr-pages/tldr/tree/master/pages/common]
+@[https://github.com/tldr-pages/tldr/blob/master/pages/common/clang.md]
+@[https://clang.llvm.org/docs/ClangCommandLineReference.html]
+
+
+  $ gcc ${source1.c} ${source2.c} \   ← Compile N source files,
+      -o ${executable}                   ← to exec
+      -Wall                              ← Allow warnings
+      -Og                                ← debug symbols to STDOUT
+      -I${header_path}                   ← add headers paths
+      -L${library_path}                  ← add library paths
+      -l${library_name}                  ← add library
+   NOTE: Use c99 (vs gcc) + default options to switch to ISO C standard.
+   NOTE: Most commands are similar in gcc and clang LLVM compiler.
+
+  $ gcc -S ${source.c}                   ← Compile src to Assembler
+
+  $ gcc -c ${source.c}                   ← Compile src, do NOT link
+
+  $ clang -S -emit-llvm ${file.c} \      ← Compile src to LLVM Intermediate Rep.
+$     -o ${file.ll}
+
+
+  $ gcc
+    -g                     // add debugging info
+    -Idir1 -Idir2          <-- Add directory to include search path
+    -D_FORTIFY_SOURCE=2
+    -D_ISOC99_SOURCE       <-- The GNU C Library nevertheless has a complete ISOC99 implementation of the standard. Use this macro to activate. This is actually a libc option, not a compiler option. http://www.gnu.org/software/libc/manual/html_node/Feature-Test-Macros.html
+    -std=c99
+    -D_FILE_OFFSET_BITS=64  <-- Usefull for apps with large files (Video, big databases,..)
+    -D_LARGEFILE_SOURCE
+    -D_POSIX_C_SOURCE=200112
+    -D_XOPEN_SOURCE=600
+    -O2   // Code Optimization level
+    -fstack-protector
+    --param=ssp-buffer-size=4
+    -Wformat
+    -Werror=format-security
+    -fomit-frame-pointer
+    -pthread // <-- activate posix trheads
+    -Wall
+    -fno-math-errno
+    -fno-signed-zeros
+    -fno-tree-vectorize
+    -MMD
+    -MF lua_avconv.d
+    -MT lua_avconv.o
+    -c
+    -o lua_avconv.o lua_avconv.c
+
+[[}]]
+
+##  GCC 10 C++ features
+@[https://developers.redhat.com/blog/2020/09/24/new-c-features-in-gcc-10/]
+
+## Static analysis in GCC 10: [[{qa.code]]
+https://developers.redhat.com/blog/2020/03/26/static-analysis-in-gcc-10/
+
+By David Malcolm March 26, 2020
+
+I work at Red Hat on GCC, the GNU Compiler Collection. For the next
+major release of GCC, GCC 10, I’ve been implementing a new
+-fanalyzer option: A static analysis pass to identify various
+problems at compile-time, rather than at runtime.
+
+My thinking here is that it’s best to catch problems as early as
+possible as the code is written, using the compiler the code is
+written in as part of the compile-edit-debug cycle, rather than
+having static analysis as an extra tool “on the side” (perhaps
+proprietary). Hence, it seems worthwhile to have a static analyzer
+built into the compiler that can see exactly the same code as the
+compiler sees—because it is the compiler.
+
+This issue is, of course, a huge problem to tackle. For this release,
+I’ve focused on the kinds of problems seen in C code—and, in
+particular double-free bugs—but with a view toward creating a
+framework that we can expand on in subsequent releases (when we can
+add more checks and support languages other than C).
+
+My hope is that the analyzer provides a decent amount of extra
+checking while not being too expensive. I’ve aimed for -fanalyzer
+to “merely” double the compile time as a reasonable trade-off for
+the extra checks. I haven’t succeeded yet, as you’ll see below,
+but I’m working on it.
+
+https://developers.redhat.com/blog/2021/01/28/static-analysis-updates-in-gcc-11?sc_cid=7013a0000026SuaAAE#
+GCC 10 implementation of -fanalyzer added 15 warnings:
+    Warnings relating to memory management:
+        -Wanalyzer-double-free
+        -Wanalyzer-use-after-free
+        -Wanalyzer-free-of-non-heap
+        -Wanalyzer-malloc-leak
+    Warnings relating to missing error-checking or misusing NULL pointers:
+        -Wanalyzer-possible-null-argument
+        -Wanalyzer-possible-null-dereference
+        -Wanalyzer-null-argument
+        -Wanalyzer-null-dereference
+    Warnings relating to stdio streams:
+        -Wanalyzer-double-fclose
+        -Wanalyzer-file-leak
+    Warnings relating to use-after-return from stack frames:
+        -Wanalyzer-stale-setjmp-buffer
+        -Wanalyzer-use-of-pointer-in-stale-stack-frame
+    Unsafe call warning:
+        -Wanalyzer-unsafe-call-within-signal-handler
+    Proof-of-concept warnings:
+        -Wanalyzer-tainted-array-index
+        -Wanalyzer-exposure-through-output-file
+
+For GCC 11, I've added four new warnings:
+
+    -Wanalyzer-write-to-const
+    -Wanalyzer-write-to-string-literal
+    -Wanalyzer-shift-count-negative
+    -Wanalyzer-shift-count-overflow
+
+I am still developing -fanalyzer only for C in GCC 11. I added
+partial support for C++'s new and deleteBut there are enough missing
+features that it's not yet worth using on real C++ code. I plan to
+make the analyzer robust and scalable for C code in GCC 11 and defer
+C++ support to GCC 12.
+
+GCC 11 will be in Fedora 34, which should also be out in the spring
+of 2021. For simple code examples, you can play around with the new
+GCC online at godbolt.org. Select your GCC "trunk" and add -fanalyzer
+to the compiler options. Have fun!
+[[}]]
+
+## finding_a_suitable_gcc_bug  [[{]]
+https://developers.redhat.com/articles/2021/10/29/beginners-attempt-optimizing-gcc?sc_cid=7013a000002pxeoAAA#finding_a_suitable_gcc_bug
+[[}]]
+
+
+
 
